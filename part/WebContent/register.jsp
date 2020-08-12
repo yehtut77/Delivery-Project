@@ -719,7 +719,14 @@ function myFunction() {
 		
        </div> 
  		
-		
+		  <div class="form-group"> 
+       
+        <label class="pure-material-textfield-outlined">
+		<input type="text" name="sender_name" onkeypress="javascript:return isLetter(event)" id="s_name" required  oninvalid="this.setCustomValidity('Please Enter Sender Name')"
+        oninput="setCustomValidity('')" placeholder=" " required />
+		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Sender Name</span>
+		</label>
+		 </div>
       
       <div class="form-group"> 
        
@@ -756,14 +763,7 @@ function myFunction() {
          </div> 
          
         
-       <div class="form-group"> 
-       
-        <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_name" onkeypress="javascript:return isLetter(event)" id="s_name" required  oninvalid="this.setCustomValidity('Please Enter Sender Name')"
-        oninput="setCustomValidity('')" placeholder=" " required />
-		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Sender Name</span>
-		</label>
-		 </div>
+     
  
          
        </div>

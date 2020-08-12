@@ -47,7 +47,7 @@ if(!s_curr.equalsIgnoreCase(r_curr)){
 	ResultSet r=p.executeQuery();
 	while(r.next()){
 		
-
+	System.out.println("In Loop");
 
 		 if(w>=r.getFloat("from_weight") && w<=r.getFloat("to_weight")){
 			if(s<=r.getFloat("size")){

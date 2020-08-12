@@ -1260,7 +1260,7 @@ $(document).ready(function(){
 		
 		
 		var total;
-			 $('#weight').focusout(function() {
+				 $('#weight').focusout(function() {
 			
 			 var check1=$("#s_curr").children("option:selected").val();
 		 	var check2=$("#r_curr").children("option:selected").val();
@@ -1293,24 +1293,30 @@ $(document).ready(function(){
 		    		//$('#city_name').val(data);
 		    		var arr=data.trim().split("-");
 		    		if(arr.length==2){
+		    		$('#charges_error').text("");
 		    			$('#trans_charges').val(arr[0]);
 		    			$('#deli_charges').val(arr[1]);
 		    			$('#exch').val("0");
 		    			total=parseInt(arr[0])+parseInt(arr[1]);
 		    			
 		    			$('#total').val(total);
-		    			
+		    	
 		    			
 		    			
 		    		}
-		    		else{
-		    		
+		    		else if(arr.length==3){
+		    		$('#charges_error').text("");
 		    		    $('#trans_charges').val(arr[2]);
 		    			$('#deli_charges').val(arr[1]);
 		    			$('#exch').val(arr[0]);
 		    			total=parseInt(arr[0])+parseInt(arr[1])+parseInt(arr[2]);
 		    			
 		    			$('#total').val(total);
+		    		}
+		    		else{
+		    		    
+		    			$('#charges_error').text("*Charges for this location doesn't exist.");
+		    			$("#charges_error").css("color", "red");
 		    		}
 		    	
 		    		
@@ -1360,24 +1366,30 @@ $(document).ready(function(){
 		    		//$('#city_name').val(data);
 		    		var arr=data.trim().split("-");
 		    		if(arr.length==2){
+		    		$('#charges_error').text("");
 		    			$('#trans_charges').val(arr[0]);
 		    			$('#deli_charges').val(arr[1]);
 		    			$('#exch').val("0");
 		    			total=parseInt(arr[0])+parseInt(arr[1]);
 		    			
 		    			$('#total').val(total);
-		    			
+		    	
 		    			
 		    			
 		    		}
-		    		else{
-		    		
+		    		else if(arr.length==3){
+		    		$('#charges_error').text("");
 		    		    $('#trans_charges').val(arr[2]);
 		    			$('#deli_charges').val(arr[1]);
 		    			$('#exch').val(arr[0]);
 		    			total=parseInt(arr[0])+parseInt(arr[1])+parseInt(arr[2]);
 		    			
 		    			$('#total').val(total);
+		    		}
+		    		else{
+		    		    
+		    			$('#charges_error').text("*Charges for this location doesn't exist.");
+		    			$("#charges_error").css("color", "red");
 		    		}
 		    	
 		    		
