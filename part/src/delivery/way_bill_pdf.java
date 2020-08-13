@@ -498,9 +498,9 @@ else if(waybill_type.equalsIgnoreCase("13")) {
  SimpleDateFormat DateFor = new SimpleDateFormat("d MMMM yyyy");
 
 			String date = DateFor.format(da);
-			String size1 = "Size:\t" + size + "sqft";
+			String size1 = "S:\t" + size + "sqft";
 			
-			String weight1 = "Wt:\t" +weight+ uom;
+			String weight1 = "W:\t" +weight+ uom;
 			Paragraph p_agent=null;
 			String add=addr3+addr4;
 			Paragraph p4=null;
@@ -672,7 +672,9 @@ else if(waybill_type.equalsIgnoreCase("13")) {
 			table.addCell(" ");
 		  
 		  
-		  
+			PdfPCell ss = new PdfPCell(si);
+			ss.setBorder(0);
+			ss.setColspan(2);
 		  
 			Barcode128 b = new Barcode128();
 			b.setCode(tracking_num);
@@ -708,35 +710,36 @@ else if(waybill_type.equalsIgnoreCase("13")) {
 			c5.setColspan(1);
 			c5.setBorder(0);
 			table.addCell(cco);
-			table.addCell(c5);
+			table.addCell(new Phrase(weight1,f));
 			PdfPCell ppp= new PdfPCell(p_phone);
 			ppp.setColspan(2);
 			ppp.setBorder(0);
-			table.addCell(ppp);
 			
+			table.addCell(ppp);
+			table.addCell(new Phrase(size1,f));
 			PdfPCell i = new PdfPCell(new Phrase("\tItem Description:"));
 			i.setBorder(0);
 			i.setVerticalAlignment(Element.ALIGN_BOTTOM);
-			table.addCell("");
-
-			table.addCell(" ");
-			table.addCell(" ");
-			table.addCell(" "); 
-			PdfPCell ss = new PdfPCell(si);
-			ss.setBorder(0);
-			ss.setColspan(2);
-			table.addCell(ss);
 			
-			table.addCell(i);
+
+			table.addCell("");
+			table.addCell("");
+			
+			table.addCell(" "); 
+			
+			table.addCell("");
+			table.addCell("");
+			
+			table.addCell("");
 			
 			
 			table.addCell(p6);
 			table.addCell("");
-			table.addCell(desc);
+			table.addCell(i);
 
 			table.addCell(p7);
 			table.addCell(" ");
-			table.addCell(" ");
+			table.addCell(desc);
 
 			table.addCell(p8);
 			table.addCell(" ");
@@ -785,12 +788,12 @@ else if(waybill_type.equalsIgnoreCase("13")) {
 			cb.lineTo(r + 72f * 2, r1);
 
 			float n = 72f * 5 + 20;// vertical line(left) 
-			float m=300; 
+			float m=280; 
 			cb.moveTo(n,m);
 			cb.lineTo(n, 200);
 
 			float j = 72f * 7 + 20;// vertical line(right) 
-			float k=300; 
+			float k=280; 
 			cb.moveTo(j,k);
 			cb.lineTo(j, 200);
 
