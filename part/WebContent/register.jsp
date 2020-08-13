@@ -333,6 +333,7 @@ function myFunction() {
                                         <div class="dropdown" style="width: 280px;">
        									    <a href="warehouse_query.jsp">WareHouse Items Query</a>
        									     <a href="waybillQuery.jsp">Waybill Query</a>
+       									       <a href="outfordelivery.jsp">Out For Delivery</a>
        									     <a href="doprintout.jsp">DO Printout</a>
     									</div>
                                     </li>
