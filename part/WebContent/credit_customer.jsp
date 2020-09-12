@@ -14,10 +14,10 @@
 	String staff_name=(String)ssss.getAttribute("staffName");
 	String ccode=(String)ssss.getAttribute("companyCode");
 	String agent_code=(String)ssss.getAttribute("parent_agent_code");
-	
-	
-	
- 
+String currency=request.getParameter("curr");
+String phone=request.getParameter("phone");
+
+
  %>
 <html lang="en">
 
@@ -42,7 +42,6 @@ var n1='<%=n%>';
 if(n1=="null"){
 	window.location.replace("https://www.delivery.teamramen.net/Login.jsp");
 }
-
 
 
 </script>
@@ -304,9 +303,119 @@ function myFunction() {
     </header>
     <!-- Header Area End -->
     
+    
      <script>
+     
+     	
+
+
+	
 
 	$(document).ready(function(){
+		 var maxLength = 35;
+			$('.limit').keyup(function() {
+			  var textlen = maxLength - $(this).val().length;
+			  if( $(this).val().length>=35){
+				  alert("Each Address box can contain 35 characters");
+			  }
+			});
+
+	var curr='<%=currency%>';
+var p='<%=phone%>';
+if(curr!="null" && p!="null")
+{	$("#s_curr option").filter('[value=' + curr + ']').prop("selected", true);
+	$('#phone').val(p);
+    $("#customSwitch1").prop("checked",true);
+    	$.ajax({
+		    		url: "edit_creditcust.jsp",
+		    		type: 'POST',
+		    		
+		    		data: {
+		    			phone:p,
+		    			
+		    			curr:curr,
+		    			type:"edit",
+		    			
+		    		    
+		    		},
+		    		success: function(data) {
+		    		//$('#city_name').val(data);
+		    		
+		    		
+		    		if(data.trim()=="not"){
+		    			
+		    		
+		    			$('#name').val("");
+			    		$('#addr1').val("");
+			    		$('#addr2').val("");
+			    		$('#addr3').val("");
+			    		$('#addr4').val("");
+			    		$('#s_postcode').val("");
+			    		$('#email').val("");
+			    		$('#bname').val("");
+			    		$('#busername').val("");
+			    		$('#accno').val("");
+			    		$("#bcard option").filter('[value=0]').prop("selected", true);
+			    		$("#emonth option").filter('[value=0]').prop("selected", true);
+			    		$("#eyear option").filter('[value=0]').prop("selected", true);
+			    		
+			    		$("#country").val("---Select---").prop("selected", true);
+			    		$("#select1 option").filter('[value=0]').prop("selected", true);
+						$("#select2 option").filter('[value=0]').prop("selected", true);
+						$("#select3 option").filter('[value=0]').prop("selected", true);
+						$("#select4 option").filter('[value=0]').prop("selected", true);
+							$('#username').val("");
+		    	
+		    			$('#psw').val("");
+		    			$('#confirm').val("");
+		    		}
+		    		else{
+		    	
+		    		
+		    		var arr=data.trim().split("$");
+		    	
+		    		
+		    		
+		    		
+		    		
+		    		
+		    		$('#name').val(arr[0]);
+		    		$('#addr1').val(arr[1]);
+		    		$('#addr2').val(arr[2]);
+		    		$('#addr3').val(arr[3]);
+		    		$('#addr4').val(arr[4]);
+		    		$('#s_postcode').val(arr[5]);
+		    		$("#country option").filter('[value=' +arr[6]+ ']').prop("selected", true);
+		    		$('#email').val(arr[7]);
+		    		$("#bcard option").filter('[value=' +arr[8]+ ']').prop("selected", true);
+		    		$('#busername').val(arr[9]);
+		    		$('#accno').val(arr[10]);
+		    		$("#emonth option").filter('[value=' +arr[11]+ ']').prop("selected", true);
+		    		$("#eyear option").filter('[value=' +arr[12]+ ']').prop("selected", true);
+		    		$('#bname').val(arr[13]);
+		    		$('#username').val(arr[14]);
+		    	
+		    			$('#psw').val(arr[15]);
+		    			$('#confirm').val(arr[15]);
+		    		
+		    		var s=arr[5];
+		    		var f=s.substring(0,2);
+					var f1=s.substring(0,4);
+					var f2=s.substring(0,6);
+					var f3=s.substring(0,8);
+					$("#select1 option").filter('[about=' + f + ']').prop("selected", true);
+					$("#select2 option").filter('[id=' + f1 + ']').prop("selected", true);
+					$("#select3 option").filter('[about=' + f2 + ']').prop("selected", true);
+					$("#select4 option").filter('[about=' + f3 + ']').prop("selected", true);
+		    		} 
+		    		
+		    		
+		    		
+		    		
+		    		}
+		}); 
+}
+
 		$("#s_curr option").filter('[value=' + 'MMK' + ']').prop("selected", true);
 		var s1_id="hello";
 		var s2_id;
@@ -609,7 +718,7 @@ else if(flag==true){
 			}
 			
 			else if((s_phone!="" || s_phone!=null || s_phone!=" ") && flag==false){
-			    	
+			    	var check1=$("#s_curr").children("option:selected").val();
 			   	$.ajax({
 		    		url: "edit_creditcust.jsp",
 		    		type: 'POST',
@@ -617,7 +726,7 @@ else if(flag==true){
 		    		data: {
 		    			phone:$("#phone").val(),
 		    			ccode:$("#ccode").val(),
-		    			
+		    			curr:check1,
 		    			type:"check_phone",
 		    			
 		    		    
@@ -634,6 +743,9 @@ else if(flag==true){
 		    			$('#phone_error').text("*Phone Number Already Exist");
 		    			$('#phone_error').css("color", "red");
 		    	
+		    		}
+		    		else{
+		    		    	$('#phone_error').text("");
 		    		}
 		    		
 		    		
@@ -741,7 +853,7 @@ else if(flag==true){
 
         return true;
     }   
-
+	
 </script>
     
 	
@@ -749,6 +861,7 @@ else if(flag==true){
    
                     
 <!-- multistep form -->
+
 <div class="bod" style="background-color: #f2f2f2;"><br><br> 
 <form id="credit_form">
 
@@ -948,28 +1061,28 @@ else if(flag==true){
 	
 	<div class="form-group"> 													
                <label class="pure-material-textfield-outlined">
-						<input type="text" placeholder="" name="address1" id="addr1" required >
+						<input type="text" placeholder="" name="address1" class="limit" maxlength="35" id="addr1" required >
 						<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Address1</span>
 	            </label>			
 	            </div>	
 	
 	<div class="form-group"> 													
                <label class="pure-material-textfield-outlined">
-						<input type="text" placeholder="" name="address2" id="addr2" >
+						<input type="text" placeholder="" class="limit" maxlength="35" name="address2" id="addr2" >
 						<span>Address2(optional)</span>
 	            </label>			
 	            </div>	
 	            
 	            <div class="form-group"> 													
                <label class="pure-material-textfield-outlined">
-						<input type="text" placeholder="" name="address3" id="addr3">
+						<input type="text" placeholder="" class="limit" maxlength="35" name="address3" id="addr3">
 						<span>Address3(optional)</span>
 	            </label>			
 	            </div>	
 	            
 	            <div class="form-group"> 													
                <label class="pure-material-textfield-outlined">
-						<input type="text" placeholder="" name="address4" id="addr4">
+						<input type="text" placeholder="" class="limit" maxlength="35" name="address4" id="addr4">
 						<span>Address4(optional)</span>
 	            </label>			
 	            </div>	

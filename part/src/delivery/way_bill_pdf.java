@@ -3,6 +3,7 @@ package delivery;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -52,6 +53,9 @@ public class way_bill_pdf extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		NumberFormat myFormat = NumberFormat.getInstance();
+        myFormat.setGroupingUsed(true); 
 		Part file_path=request.getPart("file_path");
 		InputStream inputStream=null;
 		if (file_path.getSize() != 0) 
@@ -203,6 +207,24 @@ public class way_bill_pdf extends HttpServlet {
 			
 			pp.setString(2, prefix);
 			ResultSet rr=pp.executeQuery();
+			if(rr.next()==false){
+				PreparedStatement pre1=con.prepareStatement("Insert into nextkey(company_code,period,type,month) values(?,?,?,?)");	
+				pre1.setString(1, company_code);
+				pre1.setString(2,"00000");
+				pre1.setString(3, prefix);
+				pre1.setString(4,arr[0]);
+				
+				pre1.execute();
+				
+				/* 
+				
+				
+				
+				out.println(conso_code);
+				pre.close(); */
+				
+			}
+			rr.previous();
 			if(rr.next()) {
 				System.out.println("Inside if");
 				String month=rr.getString("month");
@@ -485,15 +507,7 @@ else if(flag==true) {
 			String sender = "From:\t\t\t" + sender_name;
 			
 			
-if(waybill_type.equalsIgnoreCase("15")) {
-	way_bill="Charge To Receiver";
-}
-else if(waybill_type.equalsIgnoreCase("21")) {
-	way_bill="Cash On Delivery";
-}
-else if(waybill_type.equalsIgnoreCase("13")) {
-	way_bill="Prepaid";
-}
+
  Date da = new Date();
  SimpleDateFormat DateFor = new SimpleDateFormat("d MMMM yyyy");
 
@@ -557,12 +571,28 @@ else if(waybill_type.equalsIgnoreCase("13")) {
 					p4 = new Paragraph(addr3 + " " + addr4, f);
 					 p_up = new Paragraph(phone, f);
 			}
+			Paragraph p_phone ;
+			if(phone.length()>=40) {
+				p2 = new Paragraph(addr1, address);
+				p3 = new Paragraph(addr2, address);
+				 p4 = new Paragraph(addr3 + " " + addr4, address);
+				 p_up = new Paragraph(phone, address);
+				p_phone = new Paragraph(phone, address);
+			}
+			else {
+				p2 = new Paragraph(addr1, f);
+				p3 = new Paragraph(addr2, f);
+				 p4 = new Paragraph(addr3 + " " + addr4, f);
+				 p_up = new Paragraph(phone, f);
+				p_phone = new Paragraph(phone, f);
+			}
+			
 			
 			Paragraph p5 = new Paragraph(addr4, f);
 			Paragraph p6 = new Paragraph(product_amt1, f);
 			Paragraph p7 = new Paragraph(deli_charges1, f);
 			Paragraph p8 = new Paragraph(total_amt, f);
-			Paragraph p_phone = new Paragraph(phone, f);
+			
 			Paragraph p_sender = new Paragraph(sender, f);
 
 			Paragraph p_state = new Paragraph(state + township, f);
@@ -680,12 +710,13 @@ else if(waybill_type.equalsIgnoreCase("13")) {
 			b.setCode(tracking_num);
 			b.setBarHeight(50f);
 			// great! but what about width??? 
-			b.setX(1.5f);
+			b.setX(1.2f);
 			PdfPCell c3 = new PdfPCell(b.createImageWithBarcode(pdf.getDirectContent(), null, null));
-			c3.setColspan(3);
-			c3.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			c3.setColspan(2);
+	
 			c3.setBorder(0);
 			table.addCell(recevier_postal1);
+			table.addCell("");
 			table.addCell(c3);
 
 			table.addCell(receiver_cell);
@@ -720,7 +751,10 @@ else if(waybill_type.equalsIgnoreCase("13")) {
 			PdfPCell i = new PdfPCell(new Phrase("\tItem Description:"));
 			i.setBorder(0);
 			i.setVerticalAlignment(Element.ALIGN_BOTTOM);
+			table.addCell("");
+			table.addCell("");
 			
+			table.addCell(" ");
 
 			table.addCell("");
 			table.addCell("");

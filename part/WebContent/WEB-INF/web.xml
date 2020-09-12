@@ -20,6 +20,15 @@
 	<url-pattern>/R</url-pattern>
 </servlet-mapping>
 
+<servlet>
+	<servlet-name>barLivejsp</servlet-name>
+	<jsp-file>/live.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>barLivejsp</servlet-name>
+	<url-pattern>/LIVEJSP</url-pattern>
+</servlet-mapping>
+
 
 <servlet>
 	<servlet-name>R</servlet-name>
@@ -159,5 +168,22 @@
 	<servlet-name>staffDetail</servlet-name>
 	<url-pattern>/SDDD</url-pattern>
 </servlet-mapping>
+<servlet>
+    <servlet-name>paymentTransfer</servlet-name>
+    <jsp-file>/WEB-INF/payment_module/payment_transfer.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+   <servlet-name>paymentTransfer</servlet-name>
+   <url-pattern>/payment</url-pattern>
+</servlet-mapping>
+<servlet>
+    <servlet-name>paymentFetch</servlet-name>
+     <jsp-file>/WEB-INF/payment_module/payment_transfer_fetch.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+    <servlet-name>paymentFetch</servlet-name>
+     <url-pattern>/paymentFetch</url-pattern>
+</servlet-mapping>
+
 
 </web-app>

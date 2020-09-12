@@ -1,45 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
+    
             <%@ page import="java.sql.*"%>  
             <%@page import="java.text.SimpleDateFormat,java.util.Date"%>
             <%@ page import="java.time.format.DateTimeFormatter" %>
             <%@ page import="java.util.Calendar" %>
             <%@ page import="java.time.*" %>
- <% 
-    HttpSession ssss=request.getSession(false); 
-	String staff_name=(String)ssss.getAttribute("staffName");
-	String ccode=(String)ssss.getAttribute("companyCode");
-	String agent_code=(String)ssss.getAttribute("parent_agent_code");
-	String staff_code=(String)ssss.getAttribute("staffCode");
-	
-	 %>
- 
+
+    <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Title -->
-    <title>Myanamr Delivery</title>
+	<title>Delivery System</title>
+	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+	<!-- Fonts and icons -->
+	<script src="assets/js/plugin/webfont/webfont.min.js"></script>
 
-    <!-- Favicon -->
-    <link rel="icon" href="./img/core-img/aaa.png">
+	<script>
+		WebFont.load({
+			google: {"families":["Lato:300,400,700,900"]},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['assets/css/fonts.min.css']},
+			active: function() {
+				sessionStorage.fonts = true;
+			}
+		});
+	</script>
 
-    <!-- Stylesheet -->
-     <link rel="stylesheet" href="style.css">
+	<!-- CSS Files -->
+	<link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="inputstyle.css">  
-    <script>
-
-
-
-</script>
-   <style>
- 
-html { height: 100% }
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/atlantis.min.css">
+	<!-- CSS Just for demo purpose, don't include it in your project -->
+	<link rel="stylesheet" href="assets/css/demo.css">
+	<%
+	 HttpSession ssss=request.getSession(false);  
+    
+		String staff_name=(String)ssss.getAttribute("staffName");
+		String ccode=(String)ssss.getAttribute("companyCode");
+		String agent_code=(String)ssss.getAttribute("parent_agent_code");
+		String staff_code=(String)ssss.getAttribute("staffCode");
+       %>
+						  	
+<style>
+ html { height: 100% }
 
       body { height: 100%; margin: 0; padding: 0; font-size:14px;
    
@@ -135,23 +139,31 @@ input::-webkit-inner-spin-button {
 } */
 
  */
-  </style>
-  
-</head>
+</style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="test.js" ></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
 
+    window.addEventListener( "pageshow", function ( event ) {
+  	  var historyTraversal = event.persisted || 
+  	                         ( typeof window.performance != "undefined" && 
+  	                              window.performance.navigation.type === 2 );
+  	  if ( historyTraversal ) {
+  	    // Handle page restore.
+  	    window.location.reload();
+  	  }
+  	});
 
+</script>
+</head>
+	
+ 
 
-
- 	
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="loader"></div>
-    </div>
+ <!-- Preloader -->
+     
     <!-- /Preloader -->
 
     <!-- Header Area Start -->
@@ -184,13 +196,7 @@ input::-webkit-inner-spin-button {
                            <div class="classynav">
                                 <ul id="nav">
                                     <li><a href="./index.jsp">Home</a></li>
-                                     <li class="drop-down" ><a href="#">Operation</a>
-    						            <ul class="dropdown" style="width: 280px;">
-    						              <li> <a href="credit_customer_waybillQuery.jsp">Credit Customer Waybill Queries</a></li>
-    						              <li> <a href="credit_customer_query_main.jsp">Credit Customer  Queries</a></li>
-    						              
-    						            </ul>
-						          </li> 
+                                    
                                     <li><a href="register.jsp">WayBill</a>
                                     </li><li><a href="batch_waybill">Batch WayBill</a>
                                     </li>
@@ -212,16 +218,7 @@ input::-webkit-inner-spin-button {
             </div>
         </div>
     </header>
-    <!-- Header Area End -->
-    
-     
-    
-	
-		
-   
-                    
-<!-- multistep form -->
-<div class="bod" style="background-color: #f2f2f2;"><br><br> 
+    <div class="bod" style="background-color: #f2f2f2;"><br><br> 
 
        <div class="container">
             <div class="row">
@@ -239,180 +236,139 @@ input::-webkit-inner-spin-button {
             </div>
         </div>
         
-    
-
+        <script>
  
  
- <script>  
-var request=new XMLHttpRequest(); 
-
-function searchInfo(){  
-var name=document.vinform.name.value;  
-
-
-var url="credit_customer_query_search.jsp?name="+name;  
-
-  
-try{  
-request.onreadystatechange=function(){  
-if(request.readyState==4){  
-var val=request.responseText;  
-document.getElementById('mylocation').innerHTML=val;  
-}  
-}//end of function  
-request.open("GET",url,true);  
-request.send();  
-}catch(e){alert("Unable to connect to server");}  
-}  
-
-function searchInfo1(){  
-	var phone= document.vinform.phone.value 
+ $(document).ready(function () {
+ $("#mylocation").on('click',function() {
+$('table tbody tr  td').on('click',function(){
 	
-	var url="credit_customer_query_search.jsp?phone="+phone;  
+	var  phone=$(this).closest('tr').children()[2].textContent;
 	
-	try{  
-	request.onreadystatechange=function(){  
-	if(request.readyState==4){  
-	var val=request.responseText;  
-	document.getElementById('mylocation').innerHTML=val;  
-	}  
-	}//end of function  
-	request.open("GET",url,true);  
-	request.send();  
-	}catch(e){alert("Unable to connect to server");}  
-}  
-	
-function searchInfo2(){  
-	var code= document.vinform.code.value  
-
-	
-	var url="credit_customer_query_search.jsp?code="+code;  
-
-	  
-	try{  
-	request.onreadystatechange=function(){  
-	if(request.readyState==4){  
-	var val=request.responseText;  
-	document.getElementById('mylocation').innerHTML=val;  
-	}  
-	}//end of function  
-	request.open("GET",url,true);  
-	request.send();  
-	}catch(e){alert("Unable to connect to server");}  
-	} 
-
-
-
-	
-</script>  
- <div class="container">
-  
-<form name="vinform">  
-<div class="card">
-<div class="card-body">		
- <div class="form-group">   
-<h4>Credit Customer Query</h4>	
-
-</div>	
-
-<script>
-
-$(document).ready(function () {
-    toggleFields(); // call this first so we start out with the correct visibility depending on the selected form values
-    // this will call our toggleFields function every time the selection value of our other field changes
-    $("#dbType").change(function () {
-        toggleFields();
-    });
+	var  curr=$(this).closest('tr').children()[3].textContent;
+	 
+	 $("#p").val(phone);
+	 $("#c").val(curr);
+	 $("#f").submit();
 
 });
-// this toggles the visibility of other server
-function toggleFields() {
-    if ($("#dbType").val() === "name")			{    $("#otherServer").show();    $("#otherServer_phone").hide();  $("#otherServer_code").hide();}
-      
-    
-    else if ($("#dbType").val() === "phone")      {  $("#otherServer_phone").show(); $("#otherServer").hide();  $("#otherServer_code").hide(); }
-    
-    
-    else if ($("#dbType").val() === "code")      {  $("#otherServer_code").show(); $("#otherServer").hide();  $("#otherServer_phone").hide(); }
-    
-       
+	});
  
-    else										{$("#otherServer").hide(); $("#otherServer_phone").hide();
-    $("#otherServer_code").hide();}
-    
-        
+ 
+	     $('#dbType').change(function () {
+	       
+	        var a=document.getElementById("code");
+	        $('#code').removeAttr("disabled");
+	        $("#basic-datatables > tbody").empty();
+	        a.value="";
+	 	       
+	    });
+
+	});
+	
+
+
+function searchInfo(){ 
+	 var code= document.vinform.code.value
+	 var type=document.getElementById("dbType").value;
+	
+	  if ($("#dbType").val() ==="code")			
+	    {   
+		
+		  var code1=code.substring(0,8);
+		  var code2=code.substring(8);
+		  
+		  $.ajax({
+				url: "credit_customer_query_search.jsp",
+			    type: 'POST',
+				data: {code1:code1,code2:code2,type:type},
+				success: function(data) {
+
+					var trck = data.trim();
+					//  tableBody = $("table tbody"); 
+	                 // tableBody.append(trck); 
+					//var text=document.getElementById('mylocation');
+					//text.innerHTML=trck;  
+					  if(trck!="ok"){
+					     var nameArr = trck.split(',');
+					  data1 =   "<tr><td>" 
+	                      +nameArr[0]+"</td><td>"
+	                      +nameArr[1]+"</td><td>"
+	                      +nameArr[2]+"</td><td>"
+	                      +nameArr[3]+"</td><td>"
+	                      +nameArr[4]+"</td><td>"
+	                      +nameArr[5]+"</td><td>"
+	                      +nameArr[6]+"</td></tr>"; 
+	                      $("#basic-datatables > tbody").empty();
+	                     tableBody = $("table tbody"); 
+	                     tableBody.append(data1); 
+					  }else{
+							 $('#rowsoftb').append("No data available"); 
+				 
+						 }
+				 
+				}
+			
+		  });
+
+	    }
+	      
+	    
+	   
+	    
+	       
+	 
+	    else										
+	    { 
+	    	$("#otherServer").show();
+	    	$.ajax({
+			url: "credit_customer_query_search.jsp",
+		    type: 'POST',
+			data: {code:code,type:type},
+			success: function(data) {
+			
+				var trck = data.trim();
+				//  tableBody = $("table tbody"); 
+                 // tableBody.append(trck); 
+				//var text=document.getElementById('mylocation');
+				//text.innerHTML=trck;  
+			 if(trck!="ok"){
+				 var nameArr = trck.split(',');
+				  data1 =   "<tr><td>" 
+                     +nameArr[0]+"</td><td>"
+                     +nameArr[1]+"</td><td>"
+                     +nameArr[2]+"</td><td>"
+                     +nameArr[3]+"</td><td>"
+                     +nameArr[4]+"</td><td>"
+                     +nameArr[5]+"</td><td>"
+                     +nameArr[6]+"</td></tr>"; 
+      
+                     $("#basic-datatables > tbody").empty();
+                    tableBody = $("table tbody"); 
+                    tableBody.append(data1); 
+				 
+				 	
+			 }else{
+				 $('#rowsoftb').append("No data available"); 
+	 
+			 }
+			 
+			}
+		
+	  });
+	    
+	}  
+	    
+
 }
 
 
+</script> <div class="container">
+  <form id="f" action="credit_customer.jsp" method="post">
+  <input type="hidden" value="" name="curr" id="c">
+  <input type="hidden" value="" name="phone" id="p">
+  </form>
 
-
-</script>
-<div class="row">
-
-<div class="col-6 col-lg-4">
-
-<div class="form-group">   	 
-			<label class="pure-material-textfield-outlined">
-					<select class="browser-default custom-select"   id="dbType" name="dbType"  >
-								  <option value="select">--Select Option--</option>
-	                              <option value="name">Customer Name</option>
-	                              <option value="code" >Customer Code</option>
-	                              <option value="phone" >Customer Phone</option>
-					</select>
-					<span><i style="color:red; margin-top:1px; font-size:20px;">*</i></span>
-            </label>
-					
- 		</div>
- 		
-</div>
-
-<div class="col-6 col-lg-4">
-
-<div class="form-group" id="otherServer">   	 
-                
-				<label class="pure-material-textfield-outlined">	
-				<input type="text" placeholder="" name="name"  id=""  onkeypress="javascript:return isLetter(event)" onkeyup="searchInfo()">
-				
-					<span id="span">Search for Name</span>
-				</label>
-				<span id="#"></span> 	
-				
-</div>
- 		
- 	 <div class="form-group" id="otherServer_phone">   	 
-                
-				<label class="pure-material-textfield-outlined">	
-				<input type="text" placeholder="" name="phone"  id="phone" onkeypress="javascript:return isNumber(event)"  onkeyup="searchInfo1()">
-				
-					<span id="span">Search for Phone</span>
-				</label>
-				<span id="#"></span> 	
-		
-
- 		
- 		
-</div> 
-
-<div class="form-group" id="otherServer_code">   	 
-                
-				<label class="pure-material-textfield-outlined">	
-				<input type="text" placeholder="" name="code"  id="code"   onkeyup="searchInfo2()">
-				
-					<span id="span">Search for Code</span>
-				</label>
-				<span id="#"></span> 	
-		
-
- 		
- 		
-</div> 
-</div>
-
-</div>
-
-</div>
-</div><br><br> 
-</form>  
   
  <div class="card">
 <div class="card-body">		
@@ -426,7 +382,43 @@ function toggleFields() {
 <div class="col-12">
 
 <div class="form-group">   	 
-				<span id="mylocation"></span>  
+<span id="mylocation">
+ <table id="basic-datatables" class="display table table-striped table-hover" cellspacing="0" width="100%">
+					<thead>
+
+												<tr>
+												
+													
+												    <th>Code</th>
+												    <th>Name</th>
+												    <th>Phone</th>
+												    <th>Currency</th>
+												    <th>State</th>
+												    <th>Township</th>
+												    <th>Email</th>
+										 
+												
+
+											 
+											</tr>
+											</thead>	
+											<tbody>
+											 <tr><td>C0001</td>
+											 <td>Ye Htut Khaung</td>
+											 <td>09962078754</td>
+											 <td>MMK</td>
+											 <td>ShanSouth</td>
+											 <td>Taunggyi</td>
+											 <td>yehtutkhaung2001.tgi@gmail.com</td>
+											 </tr>
+											</tbody>			
+											
+														<!-- <tbody> -->
+											 
+ 							</table>
+ 							
+ 							
+ 							</span>  
  		</div>
  		
 </div>
@@ -440,27 +432,6 @@ function toggleFields() {
  
  </div>
  
-
- 
- <script>
- 
- function isNumber(evt) {
-     var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-     if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
-         return false;
-
-     return true;
- }   
- 
- 
- function isLetter(evt) {
-	    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-	     if ((event.keyCode > 64 && event.keyCode < 91) || (event.keyCode > 96 && event.keyCode < 123) || event.keyCode == 8 || event.keyCode==32)
-	        return true; 
-	    
-	    return false;
-	}  
- </script>
  
 
  
@@ -525,41 +496,70 @@ Name of Transport Partner Company - &nbsp&nbsp&nbspMK Express</i> <br></p>
 
             </div>
         </div>
+        
+       
     </footer>
-    <!-- Footer Area End -->
-    
-    <!-- All JS Files -->
-    <!-- jQuery -->
-    <script src="js/jquery.min.js"></script>
-    <!-- Popper -->
-    <script src="js/popper.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- All Plugins -->
-    <script src="js/delivery.bundle.js"></script>
-    <!-- Active -->
-    <script src="js/default-assets/active.js"></script>
-
-<script>
-$("#mylocation").on('click',function() {
-$('table tbody tr  td').on('click',function(){
+				
+			
+			<!-- 	End  Content -->
+			
+			
 	
-	var  track_num=$(this).closest('tr').children()[0].textContent;
-	var module="detail";
-    // url = 'credit_customer_query_detail.jsp?name=' + encodeURIComponent(track_num);
+			
+ 
+	<!-- Datatables -->
+	<script src="assets/js/plugin/datatables/datatables.min.js"></script>
 
- document.location.href = url; 
-	 
+	<script >
+	
+		$(document).ready(function() {
+		
+		
+				$('#basic-datatables').DataTable({
+			});
 
+			$('#multi-filter-select').DataTable( {
+				"pageLength": 5,
+				initComplete: function () {
+					this.api().columns().every( function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+						.appendTo( $(column.footer()).empty() )
+						.on( 'change', function () {
+							var val = $.fn.dataTable.util.escapeRegex(
+								$(this).val()
+								);
 
+							column
+							.search( val ? '^'+val+'$' : '', true, false )
+							.draw();
+						} );
 
+						column.data().unique().sort().each( function ( d, j ) {
+							select.append( '<option value="'+d+'">'+d+'</option>' )
+						} );
+					} );
+				}
+			});
+			
+			// Add Row
+			$('#add-row').DataTable({
+				"pageLength": 5,
+			});
 
-});
-	});
-</script>
+			var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
 
+			$('#addRowButton').click(function() {
+				$('#add-row').dataTable().fnAddData([
+					$("#addName").val(),
+					$("#addPosition").val(),
+					$("#addOffice").val(),
+					action
+					]);
+				$('#addRowModal').modal('hide');
+
+			});
+		});
+	</script>
 </body>
-
-
-
 </html>

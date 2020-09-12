@@ -328,20 +328,46 @@ function myFunction() {
                                 <ul id="nav">
                                     
                                      <li><a href="./index.jsp">Home</a></li>
+                                     
+                                      <li class="drop-down"><a href="#">Reports</a>     
+                                        <ul class="dropdown" style="width: 280px;" >
+ 
+       									      <li ><a href="agentDaily_receivedReport.jsp">Agent Daily Received Report</a>
+                                    </li>
+                                     <li ><a href="agentDaily_deliveryReport.jsp">Agent Daily Delivery Report</a>
+                                    </li>
+                                     <li> <a href="daily_deliveryList.jsp">Daily Delivery List</a></li>
+    									</ul>
+    									
+                                    </li>
                                     
-                                    <li><a href="#">Operation</a>     
-                                        <div class="dropdown" style="width: 280px;">
-       									    <a href="warehouse_query.jsp">WareHouse Items Query</a>
-       									     <a href="waybillQuery.jsp">Waybill Query</a>
-       									       <a href="outfordelivery.jsp">Out For Delivery</a>
-       									     <a href="doprintout.jsp">DO Printout</a>
-    									</div>
+                                    <li class="drop-down"><a href="#">Operation</a>     
+                                        <ul class="dropdown" >
+       									   <li> <a href="warehouse_query.jsp">WareHouse Items</a></li>
+       									    <li> <a href="waybillQuery.jsp">Waybill Query</a></li>
+       									       <li><a href="outfordelivery.jsp">Out For Delivery</a></li>
+       									    <li> <a href="doprintout.jsp">DO Printout</a></li>
+       									     <li> <a href="consolidate.jsp">Consolidate</a></li>
+       									    <li><a href="credit_customer_query_main.jsp">Credit Customer Query</a></li>	
+       									    <li><a href="return_wb.jsp">Return Waybill</a></li>
+       									    <li> <a href="pickUp_from.jsp">Pick up from customer</a></li>
+       									   
+       									     <li> <a href="receiverConfirmation.jsp">Receiver Confirmation</a></li>
+       									      <li ><a href="itemreject_main.jsp">Item Rejected </a>
+                                    </li>
+                                     <li ><a href="payment_transfer.jsp">Payment Transfer </a>
+                                    </li>
+    									</ul>
+    									
                                     </li>
                                     
                                     <li class="active"><a href="register.jsp">WayBill</a>
-                                    </li><li ><a href="batch_waybill.jsp">Batch WayBill</a>
+                                    </li>
+                                    <li ><a href="batch_waybill.jsp">Batch WayBill</a>
                                     </li>
                                      <li><a href="credit_customer.jsp">Credit Customer</a></li>
+                                      
+                                     
                                     
                                       <%
                                          if(count !=0){      
@@ -548,6 +574,17 @@ function myFunction() {
  <script>
 
 	$(document).ready(function(){
+		
+		var maxLength = 35;
+		$('.limit').keyup(function() {
+		  var textlen = maxLength - $(this).val().length;
+		  if( $(this).val().length>=35){
+			  alert("Each Address box can contain 35 characters");
+		  }
+		});
+		
+		
+		
 		$("#waybill_form").submit(function(e){
 			e.preventDefault();
 			
@@ -732,7 +769,7 @@ function myFunction() {
       <div class="form-group"> 
        
       <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_address1" placeholder=" " required id="s_addr1" oninvalid="this.setCustomValidity('Please Enter Sender Address')"
+		<input type="text" name="sender_address1" placeholder=" "  class="limit" maxlength="35" required id="s_addr1" oninvalid="this.setCustomValidity('Please Enter Sender Address')"
         oninput="setCustomValidity('')"/>
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Sender Address 1</span>
 		</label>
@@ -742,7 +779,7 @@ function myFunction() {
          <div class="form-group"> 
          
          <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_address2" id="s_addr2" placeholder=" "/>
+		<input type="text" class="limit" name="sender_address2" maxlength="35" id="s_addr2" placeholder=" "/>
 		<span>Sender Address 2(optional)</span>
 		</label>
          </div>   
@@ -750,7 +787,7 @@ function myFunction() {
          <div class="form-group"> 
         
          <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_address3" id="s_addr3" placeholder=" "  />
+		<input type="text" class="limit" name="sender_address3" maxlength="35" id="s_addr3" placeholder=" "  />
 		<span>Sender Address 3(optional)</span>
 		</label>
           </div>
@@ -758,7 +795,7 @@ function myFunction() {
          <div class="form-group"> 
           
          <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_address4" id="s_addr4" placeholder=" "  />
+		<input type="text" class="limit" name="sender_address4" maxlength="35" id="s_addr4" placeholder=" "  />
 		<span>Sender Address 4(optional)</span>
 		</label>
          </div> 
@@ -1464,7 +1501,7 @@ $(document).ready(function(){
      
      <div class="form-group"> 
        <label class="pure-material-textfield-outlined">
-		<input type="text" id="r_addr1"  name="r_addr1"  placeholder=" " required/>
+		<input type="text" id="r_addr1" class="limit" maxlength="35" name="r_addr1"  placeholder=" " required/>
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Receiver Address 1</span>
 		</label>
        </div> 
@@ -1472,21 +1509,21 @@ $(document).ready(function(){
 
     <div class="form-group"> 
         <label class="pure-material-textfield-outlined">
-		<input type="text" id="r_addr2" name="r_addr2"  placeholder=" "  />
+		<input type="text" id="r_addr2" class="limit" maxlength="35" name="r_addr2"  placeholder=" "  />
 		<span>Receiver Address 2</span>
 		</label>
         </div> 
        
          <div class="form-group"> 
         <label class="pure-material-textfield-outlined">
-		<input type="text" id="r_addr3" name="r_addr3"  placeholder=" " />
+		<input type="text" id="r_addr3" class="limit" maxlength="35" name="r_addr3"  placeholder=" " />
 		<span>Receiver Address 3</span>
 		</label>
         </div> 
         
          <div class="form-group"> 
         <label class="pure-material-textfield-outlined">
-		<input type="text" id="r_addr4" name="r_addr4"  placeholder=" " />
+		<input type="text" id="r_addr4" class="limit" maxlength="35" name="r_addr4"  placeholder=" " />
 		<span>Receiver Address 4</span>
 		</label>
         </div> 
@@ -1675,7 +1712,7 @@ $(document).ready(function(){
 	  <label class="pure-material-textfield-outlined">
 	 <select class="custom-select custom-select-md"  name="waybill_type" id="w_type" required>
 	 <option value="" selected> ---Select---</option>
-	 <% PreparedStatement way_pre=con.prepareStatement("Select payment_description,payment_code from paymentmode where valid_code='t' AND company_code="+ccode);
+	 <% PreparedStatement way_pre=con.prepareStatement("Select payment_description,payment_code from paymentmode where valid_code='true' AND company_code="+ccode);
 	 ResultSet way_result=way_pre.executeQuery();
 	 while(way_result.next()){
 	 
@@ -1724,8 +1761,8 @@ $(document).ready(function(){
   
    <div class="form-group"> 
 	  <label class="pure-material-textfield-outlined">
-	  <select name="drop_point" required>
-	 <option  selected> ---Select Drop-point --</option>
+	  <select name="drop_point" >
+	 <option value="" selected> ---Select Drop-point --</option>
 	 <% 
 	PreparedStatement ps14=con.prepareStatement("select agent_code,agent_name from  agent where type='d' And company_code="+ccode); 		
 	ResultSet rs14=ps14.executeQuery();  
@@ -1982,7 +2019,7 @@ $('#planneddate').change(function() {
 	<!-- Size and Weight Information End -->
 
 <br><br>
-   <center><input type="submit" class="btn delivery-btn1 btn-3 mt-15 active" id="sub" value="Complete"></center>
+   <center><button type="submit" class="btn btn-primary" id="sub">Complete</button></center>
 </div>
 </form>
 
