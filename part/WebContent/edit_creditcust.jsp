@@ -57,10 +57,11 @@ else if(type.equalsIgnoreCase("check_phone")){
     
   String ccode=request.getParameter("ccode");
     String phone=request.getParameter("phone");
-    System.out.println("phone"+phone);
-    	PreparedStatement pre=conn.prepareStatement("Select cust_phone from credit_cust where cust_phone=? AND company_code=?");
+    String curr=request.getParameter("curr");
+    	PreparedStatement pre=conn.prepareStatement("Select cust_phone from credit_cust where cust_phone=? AND company_code=? AND currency=?");
     	pre.setString(1,phone);
     	pre.setString(2,ccode);
+    	pre.setString(3,curr);
     	ResultSet r=pre.executeQuery();
     	if(r.next()){
     	    out.println("ok");

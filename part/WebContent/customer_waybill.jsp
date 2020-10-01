@@ -1678,7 +1678,7 @@ $(document).ready(function(){
 	  <label class="pure-material-textfield-outlined">
 	 <select class="custom-select custom-select-md"  name="waybill_type" id="w_type" required>
 	 <option value="" selected> ---Select---</option>
-	 <% PreparedStatement way_pre=con.prepareStatement("Select payment_description,payment_code from paymentmode where valid_code='t' AND company_code="+ccode);
+	 <% PreparedStatement way_pre=con.prepareStatement("Select payment_description,payment_code from paymentmode where valid_code='true' AND company_code="+ccode);
 	 ResultSet way_result=way_pre.executeQuery();
 	 while(way_result.next()){
 	 

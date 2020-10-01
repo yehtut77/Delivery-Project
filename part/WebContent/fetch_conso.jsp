@@ -7,12 +7,13 @@
 <%
 Connection conn=DriverManager.getConnection("jdbc:mysql://mysql3000.mochahost.com/teamrame_delivery?useTimezone=true&serverTimezone=UTC","teamrame_yhk2","J@v@1234");
 String type=request.getParameter("type");
+DateTimeFormatter FOMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy 'at' hh:mm a");
 DateTimeFormatter FOMATTER1 = DateTimeFormatter.ofPattern("MM/dd/yy");
 //Local date time instance
 LocalDateTime localDateTime = LocalDateTime.now();
 
 //Get formatted String
-
+String ldtString=FOMATTER.format(localDateTime);
 String ldtString1=FOMATTER1.format(localDateTime);
 String[] arr=ldtString1.split("/");
 String date=arr[2]+arr[0];
@@ -160,6 +161,28 @@ System.out.println("generate");
 		
 
 	 }
+	 	pre=conn.prepareStatement("Insert into agent_noti(agent_code,company_code,sender_code,sub) values(?,?,?,?)");
+		pre.setString(1, agent_code);
+		pre.setString(2, ccode);
+		pre.setString(3, "CMH");
+		pre.setString(4, "Command Header");
+		pre.execute();
+		
+		pre=conn.prepareStatement("Insert into agent_inbox(trans_date,company_code,agent_code,sender_code,sender_name,body,read_unread,module_code,created_date,createdby) values(?,?,?,?,?,?,?,?,?,?)");
+		pre.setString(1, ldtString);
+		pre.setString(2, ccode);
+		pre.setString(3, agent_code);
+		pre.setString(4, "CMH");
+		pre.setString(5, user);
+		pre.setString(6, "Hello");
+		pre.setString(7, "ur");
+		pre.setString(8, "CMH");
+		pre.setString(9, "ldtString");
+		pre.setString(10, "user");
+		
+		pre.execute();
+		
+		
 	out.println(conso_code);
 	
 }

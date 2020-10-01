@@ -126,7 +126,7 @@ $(function() {
         },
         _printCollectedResults: function() {
             var results = resultCollector.getResults(),
-                $ul = $("#result_strip ul.collector");
+                $ul = $("#result_strip_rc ul.collector");
 
             results.forEach(function(result) {
                 var $li = $('<li><div class="thumbnail"><div class="imgWrapper"><img /></div><div class="caption"><h4 class="code"></h4></div></div></li>');
@@ -281,20 +281,21 @@ $(function() {
     });
     var $node = null, canvas = Quagga.canvas.dom.image;
 
-    $node = $('<li><div class="caption"><textarea class="code" name="barcodenum" id="a" rows="1" col="30"></textarea></div></li>');
- 
+   
+   var code="";
     Quagga.onDetected(function(result) {
-    	  var code="";
+        var flag=$("#flag").val();
+    if(flag=="1"){}else{
         code=result.codeResult.code;
-
-      
-            
-           
-            $("#result_strip ul.thumbnails").prepend($node);
-           var text=document.getElementById("a");
-           text.value=code;
-           var ff=document.getElementById("ff");
-ff.submit();
+        $('#typee').val(code);
+		$("#myModal").hide();
+		
+	$("#stst").click();
+$("#flag").val("1");
+    }
+			
+		
+       
     });
-
+ 
 });

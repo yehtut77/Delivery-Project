@@ -15,7 +15,6 @@
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<!-- Fonts and icons -->
 	<script src="assets/js/plugin/webfont/webfont.min.js"></script>
-
 	<script>
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
@@ -27,7 +26,7 @@
 	</script>
 
 	<!-- CSS Files -->
-	<link rel="stylesheet" href="style.css">
+	    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="inputstyle.css">  
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/atlantis.min.css">
@@ -236,25 +235,10 @@ input::-webkit-inner-spin-button {
             </div>
         </div>
         
-        <script>
+       <!-- <script>
  
  
  $(document).ready(function () {
- $("#mylocation").on('click',function() {
-$('table tbody tr  td').on('click',function(){
-	
-	var  phone=$(this).closest('tr').children()[2].textContent;
-	
-	var  curr=$(this).closest('tr').children()[3].textContent;
-	 
-	 $("#p").val(phone);
-	 $("#c").val(curr);
-	 $("#f").submit();
-
-});
-	});
- 
- 
 	     $('#dbType').change(function () {
 	       
 	        var a=document.getElementById("code");
@@ -317,7 +301,7 @@ function searchInfo(){
 	   
 	    
 	       
-	 
+	
 	    else										
 	    { 
 	    	$("#otherServer").show();
@@ -360,10 +344,42 @@ function searchInfo(){
 	}  
 	    
 
-}
+} 
 
 
-</script> <div class="container">
+</script>  -->
+<script>
+ 
+ 
+ $(document).ready(function () {
+ $("#mylocation").on('click',function() {
+$('table tbody tr  td').on('click',function(){
+	
+	var  phone=$(this).closest('tr').children()[2].textContent;
+	
+	var  curr=$(this).closest('tr').children()[3].textContent;
+	 
+	 $("#p").val(phone);
+	 $("#c").val(curr);
+	 $("#f").submit();
+
+});
+	});
+ 
+ 
+	     $('#dbType').change(function () {
+	       
+	        var a=document.getElementById("code");
+	        $('#code').removeAttr("disabled");
+	        $("#basic-datatables > tbody").empty();
+	        a.value="";
+	 	       
+	    });
+
+	});
+ </script>
+
+<div class="container">
   <form id="f" action="credit_customer.jsp" method="post">
   <input type="hidden" value="" name="curr" id="c">
   <input type="hidden" value="" name="phone" id="p">
@@ -382,16 +398,16 @@ function searchInfo(){
 <div class="col-12">
 
 <div class="form-group">   	 
-<span id="mylocation">
+<div style="overflow: auto;">
  <table id="basic-datatables" class="display table table-striped table-hover" cellspacing="0" width="100%">
 					<thead>
 
 												<tr>
 												
 													
-												    <th>Code</th>
-												    <th>Name</th>
-												    <th>Phone</th>
+												    <th>Customer Code</th>
+												    <th>Customer Name</th>
+												    <th>Customer Phone</th>
 												    <th>Currency</th>
 												    <th>State</th>
 												    <th>Township</th>
@@ -403,22 +419,44 @@ function searchInfo(){
 											</tr>
 											</thead>	
 											<tbody>
-											 <tr><td>C0001</td>
-											 <td>Ye Htut Khaung</td>
-											 <td>09962078754</td>
-											 <td>MMK</td>
-											 <td>ShanSouth</td>
-											 <td>Taunggyi</td>
-											 <td>yehtutkhaung2001.tgi@gmail.com</td>
-											 </tr>
+											<%
+											
+											try{  
+												 
+												 Connection con=DriverManager.getConnection("jdbc:mysql://mysql3000.mochahost.com/teamrame_delivery?useTimezone=true&serverTimezone=UTC","teamrame_yhk2","J@v@1234");
+												 PreparedStatement pre=con.prepareStatement("Select * from credit_cust where company_code=?");
+												 pre.setString(1, ccode);
+												 ResultSet rs=pre.executeQuery(); 
+											
+											
+												 while(rs.next()){
+													  %>
+													 <tr><td><%=rs.getString("cust_code1")%><%=rs.getString("cust_code2")%></td>
+													 <td><%=rs.getString("cust_name")%></td>
+													 <td><%=rs.getString("cust_phone")%></td>
+													 <td><%=rs.getString("currency")%></td>
+													 <td> <%=rs.getString("cust_state")%></td>
+													 <td><%=rs.getString("cust_township")%></td>
+													 <td><%=rs.getString("cust_email")%></td>
+													 </tr>
+									
+													<% 
+													//end of else for rs.isBeforeFirst  
+													}
+										           %>
+											
+											
+											
+											
+											 
 											</tbody>			
 											
 														<!-- <tbody> -->
 											 
  							</table>
  							
- 							
- 							</span>  
+ 							</div>
+ 						
  		</div>
  		
 </div>
@@ -499,23 +537,48 @@ Name of Transport Partner Company - &nbsp&nbsp&nbspMK Express</i> <br></p>
         
        
     </footer>
+									
+
+							<input hidden type="text" value="" id="module">
+						<!-- 	Card -->
 				
 			
 			<!-- 	End  Content -->
 			
 			
+		
+
+ 
+	<script > 
 	
+ 
+ 
+	 function read() {
+		 
+			var read_message=document.getElementById("read_message");
+		 read_message.textContent="unread";
+	       read_message.style.color = "red" ;
+
+		  document.getElementById("read_message").innerHTML =  "Unread ";
+	 }
+ 	
+
+	</script>
 			
  
 	<!-- Datatables -->
 	<script src="assets/js/plugin/datatables/datatables.min.js"></script>
-
+	
+			
+	
+	
 	<script >
 	
 		$(document).ready(function() {
-		
-		
-				$('#basic-datatables').DataTable({
+			
+
+			
+			$('#basic-datatables').DataTable({
 			});
 
 			$('#multi-filter-select').DataTable( {
@@ -561,5 +624,18 @@ Name of Transport Partner Company - &nbsp&nbsp&nbspMK Express</i> <br></p>
 			});
 		});
 	</script>
+	<% pre.close();
+    	rs.close();
+	//end of else for rs.isBeforeFirst  
+
+
+//end of else 
+con.close();  
+}catch(Exception e){out.print(e);}  
+ 
+
+
+%>
+	
 </body>
 </html>

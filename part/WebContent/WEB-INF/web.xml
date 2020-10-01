@@ -184,6 +184,402 @@
     <servlet-name>paymentFetch</servlet-name>
      <url-pattern>/paymentFetch</url-pattern>
 </servlet-mapping>
+<servlet>
+    <servlet-name>itemTransfer</servlet-name>
+    <jsp-file>/WEB-INF/item_transfer_module/item_transfer.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+   <servlet-name>itemTransfer</servlet-name>
+   <url-pattern>/item</url-pattern>
+</servlet-mapping>
+<servlet>
+    <servlet-name>itemTransferFetch</servlet-name>
+    <jsp-file>/WEB-INF/item_transfer_module/item_transfer_fetch.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+   <servlet-name>itemTransferFetch</servlet-name>
+   <url-pattern>/item_fetch</url-pattern>
+</servlet-mapping>
+<servlet>
+    <servlet-name>itemReceipt</servlet-name>
+    <jsp-file>/WEB-INF/item_rcpt_module/item_receipt.jsp</jsp-file>
+</servlet>
+   <servlet-mapping>
+   <servlet-name>itemReceipt</servlet-name>
+   <url-pattern>/rcpt</url-pattern>
+</servlet-mapping>
+<servlet>
+    <servlet-name>itemReceiptFetch</servlet-name>
+    <jsp-file>/WEB-INF/item_rcpt_module/item_rcpt_fetch.jsp</jsp-file>
+</servlet>
+   <servlet-mapping>
+   <servlet-name>itemReceiptFetch</servlet-name>
+   <url-pattern>/rcpt_fetch</url-pattern>
+</servlet-mapping>
+<servlet>
+    <servlet-name>Register</servlet-name>
+    <jsp-file>/WEB-INF/waybill_creation_module/register.jsp</jsp-file>
+</servlet>
+   <servlet-mapping>
+   <servlet-name>Register</servlet-name>
+   <url-pattern>/wb</url-pattern>
+</servlet-mapping>
+<servlet>
+    <servlet-name>RegisterCharges</servlet-name>
+    <jsp-file>/WEB-INF/waybill_creation_module/register_charges.jsp</jsp-file>
+</servlet>
+   <servlet-mapping>
+   <servlet-name>RegisterCharges</servlet-name>
+   <url-pattern>/rc</url-pattern>
+</servlet-mapping>
+
+   <servlet>
+    <servlet-name>DOPrintout</servlet-name>
+    <jsp-file>/WEB-INF/do_printout_module/doprintout.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+   <servlet-name>DOPrintout</servlet-name>
+   <url-pattern>/DOP</url-pattern>
+</servlet-mapping>
 
 
+
+<servlet>
+    <servlet-name>DOPrintoutAjax</servlet-name>
+    <jsp-file>/WEB-INF/do_printout_module/doprintout_ajax.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+   <servlet-name>DOPrintoutAjax</servlet-name>
+   <url-pattern>/DOPA</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>OutForDelivery</servlet-name>
+	<jsp-file>/WEB-INF/outfordelivery_module/outfordelivery.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>OutForDelivery</servlet-name>
+	<url-pattern>/OFD</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>OutForDeliveryAddition</servlet-name>
+	<jsp-file>/WEB-INF/outfordelivery_module/outfordeliveryAdditionCalculation.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>OutForDeliveryAddition</servlet-name>
+	<url-pattern>/OFDA</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>OutForDeliveryCalculation</servlet-name>
+	<jsp-file>/WEB-INF/outfordelivery_module/outfordeliveryCalculation.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>OutForDeliveryCalculation</servlet-name>
+	<url-pattern>/OFDC</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>OutForDeliveryPDF</servlet-name>
+	<jsp-file>/WEB-INF/outfordelivery_module/outfordeliverypdfgenerator.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>OutForDeliveryPDF</servlet-name>
+	<url-pattern>/OFDP</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>OutForDeliveryPDFStore</servlet-name>
+	<jsp-file>/WEB-INF/outfordelivery_module/outfordeliverystoreOFDpdf.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>OutForDeliveryPDFStore</servlet-name>
+	<url-pattern>/OFDPS</url-pattern>
+</servlet-mapping>
+
+
+<servlet>
+	<servlet-name>Agentinbox</servlet-name>
+	<jsp-file>/WEB-INF/agent_inbox_module/agent_Inbox.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>Agentinbox</servlet-name>
+	<url-pattern>/AGI</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>AgentinboxRead</servlet-name>
+	<jsp-file>/WEB-INF/agent_inbox_module/agent_Inbox_Read.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>AgentinboxRead</servlet-name>
+	<url-pattern>/AGIR</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>AgentinboxNotiDelete</servlet-name>
+	<jsp-file>/WEB-INF/agent_inbox_module/agent_noti_delete.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>AgentinboxNotiDelete</servlet-name>
+	<url-pattern>/AGND</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>AgentinboxAttachment</servlet-name>
+	<jsp-file>/WEB-INF/agent_inbox_module/attachmentAgentinbox.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>AgentinboxAttachment</servlet-name>
+	<url-pattern>/AGIA</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>WaybillQuery</servlet-name>
+	<jsp-file>/WEB-INF/waybill_query_module/waybillQuery.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>WaybillQuery</servlet-name>
+	<url-pattern>/WBQ</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>WaybillQueryList</servlet-name>
+	<jsp-file>/WEB-INF/waybill_query_module/waybillQueryList.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>WaybillQueryList</servlet-name>
+	<url-pattern>/WBQL</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>WaybillQueryEdit</servlet-name>
+	<jsp-file>/WEB-INF/waybill_query_module/waybillQueryEdit.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>WaybillQueryEdit</servlet-name>
+	<url-pattern>/WBQE</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>ReceiverConfirmation</servlet-name>
+	<jsp-file>/WEB-INF/receiver_confirmation_module/receiverConfirmation.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>ReceiverConfirmation</servlet-name>
+	<url-pattern>/RC</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>ReceiverConfirmationCalculation</servlet-name>
+	<jsp-file>/WEB-INF/receiver_confirmation_module/receiverConfirmationCalculation.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>ReceiverConfirmationCalculation</servlet-name>
+	<url-pattern>/RCC</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>ReceiverConfirmationScanQR</servlet-name>
+	<jsp-file>/WEB-INF/receiver_confirmation_module/ScanQRCode.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>ReceiverConfirmationScanQR</servlet-name>
+	<url-pattern>/RCQR</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>PDFViewer</servlet-name>
+	<jsp-file>/WEB-INF/do_printout_module/pdfViewer.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PDFViewer</servlet-name>
+	<url-pattern>/PDFV</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>CreditCustomerQuery</servlet-name>
+	<jsp-file>/credit_customer_query_main.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>CreditCustomerQuery</servlet-name>
+	<url-pattern>/CCQ</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>Itemrejected</servlet-name>
+	<jsp-file>/itemreject_main.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>Itemrejected</servlet-name>
+	<url-pattern>/ITR</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>ParcelStaff</servlet-name>
+	<jsp-file>/parcel_staff_main.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>ParcelStaff</servlet-name>
+	<url-pattern>/PCS</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>CustomerReceiptRp</servlet-name>
+	<jsp-file>/WEB-INF/CustomerReceiptRp/customerReceipt_report.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>CustomerReceiptRp</servlet-name>
+	<url-pattern>/jRp</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>CustomerReceipt_Rp</servlet-name>
+	<jsp-file>/WEB-INF/CustomerReceiptRp/customerReceiptRpt.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>CustomerReceipt_Rp</servlet-name>
+	<url-pattern>/roadRp</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>PaymentToCreditCustomer</servlet-name>
+	<jsp-file>/WEB-INF/payment_to_credit_customer_module/paymentToCreditCustomer.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PaymentToCreditCustomer</servlet-name>
+	<url-pattern>/PCC</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>PaymentToCreditCustomerCalculation</servlet-name>
+	<jsp-file>/WEB-INF/payment_to_credit_customer_module/paymentToCreditCustomerCalculation.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PaymentToCreditCustomerCalculation</servlet-name>
+	<url-pattern>/PCCC</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>PaymentToCreditCustomerPDF</servlet-name>
+	<jsp-file>/WEB-INF/payment_to_credit_customer_module/paymentToCreditCustomerpdfgenerator.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PaymentToCreditCustomerPDF</servlet-name>
+	<url-pattern>/PCCP</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>PaymentToCreditCustomerStore</servlet-name>
+	<jsp-file>/WEB-INF/payment_to_credit_customer_module/paymentToCreditCustomerpdfStore.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PaymentToCreditCustomerStore</servlet-name>
+	<url-pattern>/PCPDF</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>companyReceivedAndDeliveredReport</servlet-name>
+	<jsp-file>/WEB-INF/company_received_and_delivered_report/companyReceivedAndDeliveredReport.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>companyReceivedAndDeliveredReport</servlet-name>
+	<url-pattern>/CRADR</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>companyReceivedAndDeliveredReportCalculation</servlet-name>
+	<jsp-file>/WEB-INF/company_received_and_delivered_report/companyReceivedAndDeliveredReportCalculation.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>companyReceivedAndDeliveredReportCalculation</servlet-name>
+	<url-pattern>/CRADRC</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>companyReceivedAndDeliveredReportPDF</servlet-name>
+	<jsp-file>/WEB-INF/company_received_and_delivered_report/companyReceivedAndDeliveredReportPDF.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>companyReceivedAndDeliveredReportPDF</servlet-name>
+	<url-pattern>/CRADRPDF</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>companyReceivedAndDeliveredReportPDFStore</servlet-name>
+	<jsp-file>/WEB-INF/company_received_and_delivered_report/companyReceivedAndDeliveredReportPDFStore.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>companyReceivedAndDeliveredReportPDFStore</servlet-name>
+	<url-pattern>/CRADRPS</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>companyReceivedAndDeliveredReportPDFDelete</servlet-name>
+	<jsp-file>/WEB-INF/company_received_and_delivered_report/DeleteTemporaryPDF.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>companyReceivedAndDeliveredReportPDFDelete</servlet-name>
+	<url-pattern>/CRADRPD</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>DailyDeliveryListReport</servlet-name>
+	<jsp-file>/WEB-INF/DailyDeliveryList/daily_deliveryList.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>DailyDeliveryListReport</servlet-name>
+	<url-pattern>/ZdDl</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>DailyDeliveryListRp</servlet-name>
+	<jsp-file>/WEB-INF/DailyDeliveryList/daily_delivery.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>DailyDeliveryListRp</servlet-name>
+	<url-pattern>/ZdDlf</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>MonthlyIncomeReport</servlet-name>
+	<jsp-file>/WEB-INF/monthly_income_report/monthlyIncomeReport.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>MonthlyIncomeReport</servlet-name>
+	<url-pattern>/MIR</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>MonthlyIncomeReportCalculation</servlet-name>
+	<jsp-file>/WEB-INF/monthly_income_report/monthlyIncomeReportCalculation.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>MonthlyIncomeReportCalculation</servlet-name>
+	<url-pattern>/MIRC</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>MonthlyIncomeReportPDF</servlet-name>
+	<jsp-file>/WEB-INF/monthly_income_report/monthlyIncomeReportPDF.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>MonthlyIncomeReportPDF</servlet-name>
+	<url-pattern>/MIRPDF</url-pattern>
+</servlet-mapping>
+
+
+<servlet>
+	<servlet-name>MonthlyIncomeReportPDFStore</servlet-name>
+	<jsp-file>/WEB-INF/monthly_income_report/monthlyIncomeReportPDFStore.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>MonthlyIncomeReportPDFStore</servlet-name>
+	<url-pattern>/MIRPDFS</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>AgentDailyDeliveryReport</servlet-name>
+	<jsp-file>/WEB-INF/agentDelivery_DeliveryReport/agentDaily_deliveryReport.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>AgentDailyDeliveryReport</servlet-name>
+	<url-pattern>/AdRp</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>AgentDailyReceiveReport</servlet-name>
+	<jsp-file>/WEB-INF/agentDelivery_ReceiveReport/agentDaily_receivedReport.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>AgentDailyReceiveReport</servlet-name>
+	<url-pattern>/AdCp</url-pattern>
+</servlet-mapping>
 </web-app>

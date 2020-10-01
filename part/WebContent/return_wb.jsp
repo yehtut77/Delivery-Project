@@ -973,7 +973,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 							<p>
 
 								Date of Establishment of Transport service -&nbsp&nbsp&nbsp2017<br>
-								Name of IT Partner Company â &nbsp&nbsp&nbspI-ECHO Software
+								Name of IT Partner Company Ã¢ÂÂ &nbsp&nbsp&nbspI-ECHO Software
 								Solutions Co., Ltd <br> Address - &nbsp&nbsp&nbspYangon,
 								Myanmar<br> <br>
 								<br>

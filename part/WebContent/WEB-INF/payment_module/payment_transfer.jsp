@@ -8,7 +8,7 @@
 <html lang="en">
  
 <%//Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/delivery1","root","root");
-//Connection conn = DriverManager.getConnection("jdbc:mysql://mysql3000.mochahost.com/teamrame_delivery?useTimezone=true&serverTimezone=UTC","teamrame_yhk2","J@v@1234");
+Connection conn = DriverManager.getConnection("jdbc:mysql://mysql3000.mochahost.com/teamrame_delivery?useTimezone=true&serverTimezone=UTC","teamrame_yhk2","J@v@1234");
 
 
  HttpSession ssss=request.getSession(false);  
@@ -125,7 +125,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-
+<script src="script_files/payment_module.js"></script>
 
     <!-- Preloader -->
  
@@ -383,201 +383,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
  	</div>
  	</div>
  	</div>
- 	 <script>
+ 	<input type="hidden" value="<%=ccode%>" id="ccode">
+ 	<input type="hidden" value="<%=agent_code%>" id="agent_code">
  	
-	 
- 	 
- $(document).ready(function(){
-	 
-
-	 
-	  $('#total_charges').addClass("d-none"); 
-		 $('#total_commision').addClass("d-none");
-		 
-	 $(".buto").click(function(){
-         var radioValue = $("input[name='exampleRadios']:checked").val();
-         var ccode='<%=ccode%>';
- 		var agent_code='<%=agent_code%>';
-	 if(radioValue=="staff"){
-		
-		  $.ajax({
-	    		url: "paymentFetch",
-	    		type: 'POST',
-	    		data: {
-	    			ccode:ccode,
-	    			agent_code:agent_code,
-	    			type:"staff",
-	    			
-	    		    
-	    		},
-	    		success: function(data) {
-	    		//$('#city_name').val(data);
-	    		var arr=data.trim().split('$');
-	    		  $("table").find("tr:gt(0)").remove();
-	    			$('tbody').append(arr[0]);
-	    			 $("#payable_amt").text(arr[1]);
-	    	
-	    			 $('td:nth-child(5),th:nth-child(5)').hide();
-	    		
-	    		
-	    	
-	    		}
-	
-	
-	
-	
-	});
-		 
-		 
-		 
-		  $('#total_charges').addClass("d-none"); 
-		 $('#total_commision').addClass("d-none");
-		 
-	
-	 }
-	 if(radioValue=="agent"){
-		  $.ajax({
-	    		url: "paymentFetch",
-	    		type: 'POST',
-	    		data: {
-	    			ccode:ccode,
-	    			agent_code:agent_code,
-	    			type:"agent",
-	    			
-	    		    
-	    		},
-	    		success: function(data) {
-	    		//$('#city_name').val(data);
-	    		var arr=data.trim().split('$');
-	    		  $("table").find("tr:gt(0)").remove();
-	    			$('tbody').append(arr[0]);
-	    			 $("#payable_amt").text(arr[1]);
-	    	
-	    			
-	    		console.log(data);
-	    		
-	    	
-	    		}
-	
-	
-	
-	
-	});
-		 
-		 
-		  $('td:nth-child(5),th:nth-child(5)').show();
-		 $('#total_charges').removeClass("d-none");
-		 $('#total_commision').removeClass("d-none");
-		
-	 }
-	 });
-	 var video = document.createElement("video");
-     var canvasElement = document.getElementById("canvas");
-     var canvas = canvasElement.getContext("2d");
-     var loadingMessage = document.getElementById("loadingMessage");
-     var outputContainer = document.getElementById("output");
-     var outputMessage = document.getElementById("outputMessage");
-     var outputData = document.getElementById("outputData");
-     const mediaStream=null;
-     const tracks=null;
-     var s;
-	 $(".payment").click(function(){
-		 
-		 
-		 
-         var radioValue = $("input[name='payment']:checked").val();
-         if(radioValue=="kpay"){
-        	 $("#payment_img").removeClass("d-none");
-        	if(s!=null){
-        		 s.getTracks()[0].stop();
-        		 canvasElement.hidden = true;
-        	}
-        	 $("#payment_img").attr("src", "kbzpay.png");
-         }
-         else if(radioValue=="cb"){
-        	 $("#payment_img").removeClass("d-none");
-        	 if(s!=null){
-        		 s.getTracks()[0].stop();
-        		 canvasElement.hidden = true;
-        	}
-        	
-        	 $("#payment_img").attr("src", "cbpay.png");
-         }
-         else if(radioValue=="cash"){
-        	 $("#payment_img").addClass("d-none");
-         }
-         else if(radioValue=="mpu"){
-        	 $("#payment_img").addClass("d-none");
-
-             function drawLine(begin, end, color) {
-               canvas.beginPath();
-               canvas.moveTo(begin.x, begin.y);
-               canvas.lineTo(end.x, end.y);
-               canvas.lineWidth = 4;
-               canvas.strokeStyle = color;
-               canvas.stroke();
-             }
-
-             // Use facingMode: environment to attemt to get the front camera on phones
-             navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
-            	s=stream;
-               video.srcObject = stream;
-               video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-               video.play();
-               requestAnimationFrame(tick);
-              
-             
-             });
-         	function beep() {
-         	    var snd = new  Audio("data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");  
-         	    snd.play();
-         	}
-             function tick() {
-               
-               if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                 
-                 canvasElement.hidden = false;
-                 
-
-                 canvasElement.height = video.videoHeight;
-                 canvasElement.width = video.videoWidth;
-                 canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-                 var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-                 var code = jsQR(imageData.data, imageData.width, imageData.height, {
-                   inversionAttempts: "dontInvert",
-                 });
-                 if (code){
-                	
-                   drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
-                   drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
-                   drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
-                   drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
-                 
-                   console.log(code.data);
-                   s.getTracks()[0].stop();
-                   beep();
-                   $("#result").val(code.data);
-                   canvasElement.hidden = true;
-                  
-                 } 
-               }
-               requestAnimationFrame(tick);
-             }
-         
-         
-         
-         
-         
-         }
-        
-     });
-	 
-	
-	 
- });
- </script>
  	<div class='row'>
  	<div class="col-lg-12 col-sm-12">
+ 	<form id="payment_form">
  	<div class="card">
  	<div class="card-body">
  	<div class="card-title"><h4><b>Pricing</b></h4></div>
@@ -590,7 +401,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
  	</div>
  	<div class="col-3">
  	 
- 	  <label for="colFormLabelLg" class="col-form-label col-form-label-lg" id="delivery_charges"></label>
+ 	  <label for="colFormLabelLg" class="col-form-label col-form-label-lg" id="total"></label>
  	
  	</div>
  	</div>
@@ -600,12 +411,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
  	
  	<div class="col-2">
  	
- 	  <label for="colFormLabelLg" class="col-form-label col-form-label-lg">Total Commision :</label>
+ 	  <label for="colFormLabelLg" class="col-form-label col-form-label-lg">Total Commission :</label>
  	
  	</div>
  	<div class="col-3">
  	 
- 	  <label for="colFormLabelLg" class="col-form-label col-form-label-lg" id="total"></label>
+ 	  <label for="colFormLabelLg" class="col-form-label col-form-label-lg" id="total_commission"></label>
  	
  	</div>
  	</div>
@@ -643,8 +454,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
  	<div class="card-title"><h4><b>Receipient</b></h4></div>
  	<div class="form-group"> 
         <label class="pure-material-textfield-outlined">
-		<select>
-		<option>Ye Htut Khaung</option>
+		<select id="agent_staff" required>
+		
 		</select>
 		<span>Receipient Staff Code</span>
 		</label>
@@ -660,23 +471,17 @@ body {font-family: Arial, Helvetica, sans-serif;}
  	<div class="card-title"><h4><b>Payment</b></h4></div>
  	<div class="form-group row"> 
  	<div class="col-8">
-        
-     <input class="form-check-input payment" type="radio" value="kpay" name="payment" checked>
+        <%
+        PreparedStatement pre=conn.prepareStatement("Select paytype_code,paytype,QR_pic from paycode");
+ 			  ResultSet rs=pre.executeQuery();
+ 			  while(rs.next()){
+        %>
+     <input class="form-check-input payment" type="radio" value="<%=rs.getString("QR_pic")%>$<%=rs.getString("paytype_code")%>" name="payment" checked>
    <label class="form-check-label" >
-    KBZ Pay
-  </label> <br> 
-  <input class="form-check-input payment" type="radio"   name="payment" value="cb" >
-   <label class="form-check-label" >
-    CB Pay
-  </label>  <br>
-  <input class="form-check-input payment" type="radio"   name="payment" value="mpu" >
-   <label class="form-check-label" >
-    MPU/JCB/VISA/MASTER
-  </label> <br> 
-  <input class="form-check-input payment" type="radio"   name="payment" value="cash">
-   <label class="form-check-label">
-    Cash
-  </label> 
+   <%=rs.getString("paytype")%>
+  </label> <br>
+  <%} %> 
+ 
  
 		
          </div>
@@ -706,14 +511,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
       </div>
       </div>
  	</div>
- 	<script>
- 	
- 	</script>
+ 
  	</div>
  	<div class="row">
  	<div class="col-12 text-center">
  
- 	<button type="submit" class="btn btn-primary" id="btn" disabled>Make Payment</button>
+ 	<button type="submit" class="btn btn-primary" id="make_payment" disabled>Make Payment</button>
  	
  	</div>
  	</div>
@@ -721,7 +524,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
  	
  	
    </div>
-
+</form>
     
     <!-- Welcome  body  Area Start -->
 	 
@@ -750,7 +553,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 							<p>
 
 								Date of Establishment of Transport service -&nbsp&nbsp&nbsp2017<br>
-								Name of IT Partner Company â &nbsp&nbsp&nbspI-ECHO Software
+								Name of IT Partner Company Ã¢ÂÂ &nbsp&nbsp&nbspI-ECHO Software
 								Solutions Co., Ltd <br> Address - &nbsp&nbsp&nbspYangon,
 								Myanmar<br> <br>
 								<br>

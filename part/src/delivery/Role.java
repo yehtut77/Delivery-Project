@@ -111,7 +111,7 @@ public class Role extends HttpServlet {
 				ssss.setAttribute("companyType", company_type);
 				ssss.setAttribute("agentCode", parent_agent_code);
 				conn.close();
-				response.sendRedirect("register.jsp");
+				response.sendRedirect("rc");
 			}
 			else {
 				conn.close();
