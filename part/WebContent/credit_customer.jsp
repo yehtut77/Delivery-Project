@@ -14,9 +14,66 @@
 	String staff_name=(String)ssss.getAttribute("staffName");
 	String ccode=(String)ssss.getAttribute("companyCode");
 	String agent_code=(String)ssss.getAttribute("parent_agent_code");
+	String staff_code=(String)ssss.getAttribute("staffCode");
 String currency=request.getParameter("curr");
 String phone=request.getParameter("phone");
+int count=0;
 
+PreparedStatement pre_noti=con.prepareStatement("Select count(*) from agent_noti where agent_code=? and company_code=?");
+   pre_noti.setString(1,agent_code);
+   pre_noti.setString(2,ccode);	    
+	ResultSet noti_rs = pre_noti.executeQuery();
+	noti_rs.next();
+  count = noti_rs.getInt(1);
+	     
+  String mainagent="no";
+PreparedStatement pre_for_PCC = con.prepareStatement("Select main_agent from agent where agent_code=? and company_code=?");
+pre_for_PCC.setString(1,agent_code);
+   pre_for_PCC.setString(2,ccode);	 
+		ResultSet rs_for_PCC = pre_for_PCC.executeQuery();
+		if (rs_for_PCC.next()) {
+		String testmainagent=rs_for_PCC.getString("main_agent");
+		if(testmainagent==null){ mainagent="no"; }else{
+		if(testmainagent.equals("on")){
+		   mainagent="yes"; 
+		}
+		   } 
+		}
+		String monthlyincome="no";
+			String staff_dept_des="";
+				String staff_role_des="";
+			PreparedStatement pre_month = con.prepareStatement("Select staff_dept,staff_position_code from staff where agent_code=? and company_code=? and staff_code=?");
+       	 pre_month.setString(1,agent_code);
+              pre_month.setString(2,ccode);	
+   	    pre_month.setString(3,staff_code);	 
+             
+
+		ResultSet rs_month = pre_month.executeQuery();
+		if (rs_month.next()) {
+		String staff_dept=rs_month.getString("staff_dept");
+		String staff_position_code=rs_month.getString("staff_position_code");
+     
+       
+       	PreparedStatement pre_dept = con.prepareStatement("Select description from staff_dept where dept_code=?");
+       	 pre_dept.setString(1,staff_dept);
+      
+		ResultSet rs_dept = pre_dept.executeQuery();
+		if (rs_dept.next()) {
+		 staff_dept_des=rs_dept.getString("description");
+		}
+			PreparedStatement pre_role = con.prepareStatement("Select description from staff_position where pos_code=?");
+       	 pre_role.setString(1,staff_position_code);
+      
+		ResultSet rs_role = pre_role.executeQuery();
+		if (rs_role.next()) {
+		 staff_role_des=rs_role.getString("description");
+		}
+		}
+		         
+
+		if(staff_dept_des.equals("Accounts") || staff_role_des.equals("Supervisor") ||  staff_role_des.equals("Manager")) {
+		    monthlyincome="yes";
+		}
 
  %>
 <html lang="en">
@@ -36,6 +93,7 @@ String phone=request.getParameter("phone");
     <!-- Stylesheet -->
      <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="inputstyle.css">  
+     <link rel="stylesheet" href="assets/css/atlantis.min.css">
     <script>
 var n1='<%=n%>';
 
@@ -278,14 +336,97 @@ function myFunction() {
                             <!-- Nav Start -->
                            <div class="classynav">
                                 <ul id="nav">
-                                    <li><a href="./index.jsp">Home</a></li>
                                     
-                                    <li><a href="register.jsp">WayBill</a>
-                                    </li><li><a href="batch_waybill">Batch WayBill</a>
+                                     <li><a href="./index.jsp">Home</a></li>
+                                     
+                                      <li class="drop-down"><a href="#">Reports</a>     
+                                        <ul class="dropdown" style="width: 280px;" >
+ 
+       									      <li ><a href="AdCp">Agent Daily Received Report</a>
                                     </li>
-                                      <li class="active"><a href="credit_customer.jsp">Credit Customer</a></li>
+                                     <li ><a href="AdRp">Agent Daily Delivery Report</a>
+                                    </li>
+                                     <li> <a href="ZdDl">Daily Delivery List</a></li>
+                                     <li> <a href="jRp">Customer Receipt Report</a></li>
+                                       <li id="crdr"> <a href="CRADR"  style="font-size:11px;">Company Received And Delivered Report</a></li>
+                                          <li id="mirc"> <a href="MIR" >Monthly Income Report</a></li>
+
+    									</ul>
+    									
+                                    </li>
                                     
-                                    <li><a href="kill_session">Logout</a></li>
+                                    <li class="drop-down"><a href="#">Operation</a>     
+                                        <ul class="dropdown" >
+       									   <li> <a href="warehouse_query.jsp">WareHouse Items</a></li>
+       									   <li> <a href="item">Item Transfer</a></li>
+       									    <li> <a href="WBQ">Waybill Query</a></li>
+       									       <li><a href="OFD">Out For Delivery</a></li>
+       									    <li> <a href="DOP">DO Printout</a></li>
+       									     
+       									     <li> <a href="consolidate.jsp">Consolidate</a></li>
+       									    <li><a href="CCQ">Credit Customer Query</a></li>	
+       									    <li><a href="return_wb.jsp">Return Waybill</a></li>
+       									    <li> <a href="PIfc">Pick up from customer</a></li>
+       									   
+       									   
+       									     <li> <a href="RC">Receiver Confirmation</a></li>
+       									      <li ><a href="ITR">Item Rejected </a>
+                                    </li>
+                                     <li><a href="PCS">Parcel with staff</a></li>
+                                     <li ><a href="payment">Payment Transfer </a>
+                                    </li>
+                                     <li id="pcca"> <a style="font-size:11px;" href="PCC">Payment To Credit customer</a></li>
+    									</ul>
+    									
+                                    </li>
+                                    
+                                    <li class="active"><a href="wb">WayBill</a>
+                                    </li>
+                                    <li ><a href="batch_waybill.jsp">Batch WayBill</a>
+                                    </li>
+                                     <li><a href="credit_customer.jsp">Credit Customer</a></li>
+                                     
+                                      
+                                     
+                                    
+                                      <%
+                                         if(count !=0){      
+                                         %>
+                                        <li>
+                                        	<div class="form-button-action">
+                                        <form action="AGND"  method="post"   >
+                                       
+                                      	<button type="submit" title="" class="btn btn-link btn-primary btn-lg"  >
+                                              <a  class="inbox" >
+					                          <span style="color:blue; text-align:right;  font-size:28px;" id="noti" class="fa fa-envelope"  ></span>
+					                          <span class="badge"><%=count %></span>
+						                      	</a></button>
+						                      	</form>
+						                      	</div>
+												</li>
+												<%} 
+												
+												else{%>
+												<li>
+                                        	<div class="form-button-action">
+                                        <form action="AGND"  method="post"   >
+                                       
+                                      	<button type="submit" title="" class="btn btn-link btn-primary btn-lg"  >
+                                              <a  class="inbox" >
+					                          <span style="color:blue; text-align:right;  font-size:28px;" id="noti" class="fa fa-envelope"  ></span>
+					                         
+						                      	</a></button>
+						                      	</form>
+						                      	</div>
+												</li>
+												
+												<%} 	 %>
+                                    
+                                    <li>
+                                    
+                                    
+                                    <a href="kill_session">Logout</a>
+                                   </li>
                                 </ul>
 
                                 <!-- Cart Icon -->
@@ -313,12 +454,47 @@ function myFunction() {
 
 	$(document).ready(function(){
 		 var maxLength = 35;
-			$('.limit').keyup(function() {
-			  var textlen = maxLength - $(this).val().length;
-			  if( $(this).val().length>=35){
-				  alert("Each Address box can contain 35 characters");
-			  }
-			});
+			$('#addr1').keyup(function() {
+				  var textlen = maxLength - $(this).val().length;
+				  if( $(this).val().length>=35){
+					  $('#r_addr11').text("*Each textbox can contain 35 characters.");
+		  			$('#r_addr11').css("color", "red");
+				  }
+				  else{
+					  $('#r_addr11').text("");
+				  }
+				});
+				$('#addr2').keyup(function() {
+					  var textlen = maxLength - $(this).val().length;
+					  if( $(this).val().length>=35){
+						  $('#r_addr22').text("*Each textbox can contain 35 characters.");
+			  			$('#r_addr22').css("color", "red");
+					  }
+					  else{
+						  $('#r_addr22').text("");
+					  }
+					});
+					
+				$('#addr3').keyup(function() {
+					  var textlen = maxLength - $(this).val().length;
+					  if( $(this).val().length>=35){
+						  $('#r_addr33').text("*Each textbox can contain 35 characters.");
+			  			$('#r_addr33').css("color", "red");
+					  } else{
+						  $('#r_addr33').text("");
+					  }
+					});
+					
+				$('#addr4').keyup(function() {
+					  var textlen = maxLength - $(this).val().length;
+					  if( $(this).val().length>=35){
+						  $('#r_addr44').text("*Each textbox can contain 35 characters.");
+			  			$('#r_addr44').css("color", "red");
+					  }
+					  else{
+						  $('#r_addr44').text("");
+					  }
+					});
 
 	var curr='<%=currency%>';
 var p='<%=phone%>';
@@ -611,7 +787,7 @@ else if(flag==true){
 		      
 		      success: function(data) {
 		        // callback code here
-		        alert(data);
+		    	  alert("Updated Successfully.");
 		       }
 		    });
 }
@@ -1063,28 +1239,32 @@ else if(flag==true){
                <label class="pure-material-textfield-outlined">
 						<input type="text" placeholder="" name="address1" class="limit" maxlength="35" id="addr1" required >
 						<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Address1</span>
-	            </label>			
+	            </label>
+	            <small id="r_addr11"></small>			
 	            </div>	
 	
 	<div class="form-group"> 													
                <label class="pure-material-textfield-outlined">
 						<input type="text" placeholder="" class="limit" maxlength="35" name="address2" id="addr2" >
 						<span>Address2(optional)</span>
-	            </label>			
+	            </label>	
+	            <small id="r_addr22"></small>		
 	            </div>	
 	            
 	            <div class="form-group"> 													
                <label class="pure-material-textfield-outlined">
 						<input type="text" placeholder="" class="limit" maxlength="35" name="address3" id="addr3">
 						<span>Address3(optional)</span>
-	            </label>			
+	            </label>	
+	            <small id="r_addr33"></small>		
 	            </div>	
 	            
 	            <div class="form-group"> 													
                <label class="pure-material-textfield-outlined">
 						<input type="text" placeholder="" class="limit" maxlength="35" name="address4" id="addr4">
 						<span>Address4(optional)</span>
-	            </label>			
+	            </label>	
+	            <small id="r_addr44"></small>		
 	            </div>	
 	
 				</div>
@@ -1413,7 +1593,7 @@ else if(flag==true){
 	<!-- Size and Weight Information End -->
 
 <br><br>
-   <center><input type="submit" class="btn delivery-btn1 btn-3 mt-15 active" id="sub" value="Submit"></center>
+   <center><button type="submit" class="btn btn-primary" id="sub">Submit</button></center>
 </div>
 </form>
     </section>

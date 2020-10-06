@@ -8,6 +8,7 @@
 <html lang="en">
  
 <%//Connection conn=DriverManager.getConnection("jdbc:mysql://localhost/delivery1","root","root");
+Connection con=DriverManager.getConnection("jdbc:mysql://mysql3000.mochahost.com/teamrame_delivery?useTimezone=true&serverTimezone=UTC","teamrame_yhk2","J@v@1234");
 
 
 String trsf_num=request.getParameter("trsf_num");
@@ -24,7 +25,64 @@ String trsf_num=request.getParameter("trsf_num");
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
     LocalDateTime now = LocalDateTime.now();
     String date=dtf.format(now);
-    
+String id=request.getParameter("id");
+int count=0;
+
+PreparedStatement pre_noti=con.prepareStatement("Select count(*) from agent_noti where agent_code=? and company_code=?");
+   pre_noti.setString(1,agent_code);
+   pre_noti.setString(2,ccode);	    
+	ResultSet noti_rs = pre_noti.executeQuery();
+	noti_rs.next();
+  count = noti_rs.getInt(1);
+	     
+  String mainagent="no";
+PreparedStatement pre_for_PCC = con.prepareStatement("Select main_agent from agent where agent_code=? and company_code=?");
+pre_for_PCC.setString(1,agent_code);
+   pre_for_PCC.setString(2,ccode);	 
+		ResultSet rs_for_PCC = pre_for_PCC.executeQuery();
+		if (rs_for_PCC.next()) {
+		String testmainagent=rs_for_PCC.getString("main_agent");
+		if(testmainagent==null){ mainagent="no"; }else{
+		if(testmainagent.equals("on")){
+		   mainagent="yes"; 
+		}
+		   } 
+		}
+		String monthlyincome="no";
+			String staff_dept_des="";
+				String staff_role_des="";
+			PreparedStatement pre_month = con.prepareStatement("Select staff_dept,staff_position_code from staff where agent_code=? and company_code=? and staff_code=?");
+       	 pre_month.setString(1,agent_code);
+              pre_month.setString(2,ccode);	
+   	    pre_month.setString(3,staff_code);	 
+             
+
+		ResultSet rs_month = pre_month.executeQuery();
+		if (rs_month.next()) {
+		String staff_dept=rs_month.getString("staff_dept");
+		String staff_position_code=rs_month.getString("staff_position_code");
+     
+       
+       	PreparedStatement pre_dept = con.prepareStatement("Select description from staff_dept where dept_code=?");
+       	 pre_dept.setString(1,staff_dept);
+      
+		ResultSet rs_dept = pre_dept.executeQuery();
+		if (rs_dept.next()) {
+		 staff_dept_des=rs_dept.getString("description");
+		}
+			PreparedStatement pre_role = con.prepareStatement("Select description from staff_position where pos_code=?");
+       	 pre_role.setString(1,staff_position_code);
+      
+		ResultSet rs_role = pre_role.executeQuery();
+		if (rs_role.next()) {
+		 staff_role_des=rs_role.getString("description");
+		}
+		}
+		         
+
+		if(staff_dept_des.equals("Accounts") || staff_role_des.equals("Supervisor") ||  staff_role_des.equals("Manager")) {
+		    monthlyincome="yes";
+		}
     %>
 
 <head>
@@ -52,7 +110,25 @@ String trsf_num=request.getParameter("trsf_num");
 	<link rel="stylesheet" href="inputstyle.css">  
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/atlantis.min.css">
+<script>
 
+var n1='<%=n%>';
+
+if(n1=="null"){
+	window.location.replace("https://www.delivery.teamramen.net/Login.jsp");
+}
+
+window.addEventListener( "pageshow", function ( event ) {
+	  var historyTraversal = event.persisted || 
+	                         ( typeof window.performance != "undefined" && 
+	                              window.performance.navigation.type === 2 );
+	  if ( historyTraversal ) {
+	    // Handle page restore.
+	    window.location.reload();
+	  }
+	});
+
+</script>
 <style>
 video {
   width: 100%;
@@ -162,28 +238,107 @@ body {font-family: Arial, Helvetica, sans-serif;}
                             </div>
                             
                             <!-- Nav Start -->
-                            <div class="classynav">
-                                  <ul id="nav">
-                                    <li><a href="index.jsp">Home</a></li>
+                           <div class="classynav">
+                                <ul id="nav">
                                     
-                                    <li ><a href="register.jsp">WayBill</a>
-                                      <li>
-                                        <a href="#">Operation</a>
-			                                     <div class="dropdown">
-													<a href="credit_customer_query_main.jsp">Credit Customer</a>
-                    									<a href="item_transfer.jsp">Item Transfer</a>
-                    									  <a href="itemreject_main.jsp">Item Rejected</a>
-                    									  <a href="warehouse_query.jsp">WareHouse_Query</a>
-                    									 <a href="parcel_staff_main.jsp">Parcel with Staff</a>
-												</div>
+                                     <li><a href="./index.jsp">Home</a></li>
+                                     
+                                      <li class="drop-down"><a href="#">Reports</a>     
+                                        <ul class="dropdown" style="width: 280px;" >
+ 
+       									      <li ><a href="AdCp">Agent Daily Received Report</a>
                                     </li>
-                                    </li><li ><a href="#">Batch WayBill</a>
+                                     <li ><a href="AdRp">Agent Daily Delivery Report</a>
                                     </li>
-                                      <li><a href="credit_customer.jsp">Credit Customer</a></li>
+                                     <li> <a href="ZdDl">Daily Delivery List</a></li>
+                                     <li> <a href="jRp">Customer Receipt Report</a></li>
+                                       <li id="crdr"> <a href="CRADR"  style="font-size:11px;">Company Received And Delivered Report</a></li>
+                                          <li id="mirc"> <a href="MIR" >Monthly Income Report</a></li>
+
+    									</ul>
+    									
+                                    </li>
                                     
-                                    <li><a href="kill_session">Logout</a></li>
+                                    <li class="drop-down"><a href="#">Operation</a>     
+                                        <ul class="dropdown" >
+       									   <li> <a href="warehouse_query.jsp">WareHouse Items</a></li>
+       									   <li> <a href="item">Item Transfer</a></li>
+       									    <li> <a href="WBQ">Waybill Query</a></li>
+       									       <li><a href="OFD">Out For Delivery</a></li>
+       									    <li> <a href="DOP">DO Printout</a></li>
+       									     
+       									     <li> <a href="consolidate.jsp">Consolidate</a></li>
+       									    <li><a href="CCQ">Credit Customer Query</a></li>	
+       									    <li><a href="return_wb.jsp">Return Waybill</a></li>
+       									    <li> <a href="PIfc">Pick up from customer</a></li>
+       									   
+       									   
+       									     <li> <a href="RC">Receiver Confirmation</a></li>
+       									      <li ><a href="ITR">Item Rejected </a>
+                                    </li>
+                                     <li><a href="PCS">Parcel with staff</a></li>
+                                     <li ><a href="payment">Payment Transfer </a>
+                                    </li>
+                                     <li id="pcca"> <a style="font-size:11px;" href="PCC">Payment To Credit customer</a></li>
+    									</ul>
+    									
+                                    </li>
+                                    
+                                    <li><a href="wb">WayBill</a>
+                                    </li>
+                                    <li ><a href="batch_waybill.jsp">Batch WayBill</a>
+                                    </li>
+                                     <li><a href="credit_customer.jsp">Credit Customer</a></li>
+                                     
+                                      
+                                     
+                                    
+                                      <%
+                                         if(count !=0){      
+                                         %>
+                                        <li>
+                                        	<div class="form-button-action">
+                                        <form action="AGND"  method="post"   >
+                                       
+                                      	<button type="submit" title="" class="btn btn-link btn-primary btn-lg"  >
+                                              <a  class="inbox" >
+					                          <span style="color:blue; text-align:right;  font-size:28px;" id="noti" class="fa fa-envelope"  ></span>
+					                          <span class="badge"><%=count %></span>
+						                      	</a></button>
+						                      	</form>
+						                      	</div>
+												</li>
+												<%} 
+												
+												else{%>
+												<li>
+                                        	<div class="form-button-action">
+                                        <form action="AGND"  method="post"   >
+                                       
+                                      	<button type="submit" title="" class="btn btn-link btn-primary btn-lg"  >
+                                              <a  class="inbox" >
+					                          <span style="color:blue; text-align:right;  font-size:28px;" id="noti" class="fa fa-envelope"  ></span>
+					                         
+						                      	</a></button>
+						                      	</form>
+						                      	</div>
+												</li>
+												
+												<%} 	 %>
+                                    
+                                    <li>
+                                    
+                                    
+                                    <a href="kill_session">Logout</a>
+                                   </li>
                                 </ul>
-                          </div>
+
+                                <!-- Cart Icon -->
+                              
+
+                                <!-- Book Icon -->
+                               
+                            </div>
                             <!-- Nav End -->
                         </div>
                     </nav>
@@ -308,6 +463,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
   <script>
   
   $(document).ready(function(){
+	 
 	  $('#btn').addClass("d-none");  
 	  var ccode='<%=ccode%>'
 	  var agent_code='<%=agent_code%>'
@@ -315,12 +471,15 @@ body {font-family: Arial, Helvetica, sans-serif;}
 		  var staff_code='<%=staff_code%>'
 		  var trsf_num='<%=trsf_num%>'
 		  var check_arr=[];
+		 var id=<%=id%>;
+		 
 		 $.ajax({
 	    		url: "rcpt_fetch",
 	    		type: 'POST',
 	    		data: {
 	    			ccode:ccode,
 	    			trsf_num:trsf_num,
+	    			id:id,
 	    			type:"fetch",
 	    			
 	    		    
@@ -387,6 +546,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 		    		success: function(data) {
 		   
 		    alert("Success");
+		    window.location.replace("https://www.delivery.teamramen.net/OFD");
 		    		}
 		
 		

@@ -7,7 +7,7 @@ Connection conn=DriverManager.getConnection("jdbc:mysql://mysql3000.mochahost.co
 
 String type=request.getParameter("type");
 if(type.equalsIgnoreCase("charges")){
-
+System.out.println("hello");
 	String s_postcode=request.getParameter("s_postcode");
 	String r_postcode=request.getParameter("r_postcode");
 	String s_curr=request.getParameter("s_curr");
@@ -15,7 +15,7 @@ if(type.equalsIgnoreCase("charges")){
 	String weight=request.getParameter("weight");
 	String size=request.getParameter("size");
 	String ccode=request.getParameter("ccode");
-	System.out.println(ccode);
+
 
 String s_postcode1,s_postcode2,r_postcode2;
 String r_postcode1=null;
@@ -100,13 +100,16 @@ if(s_curr.equalsIgnoreCase(r_curr)){
 }
 out.println(reply);
 }
+
+conn.close();
 }
+
 else if(type.equalsIgnoreCase("phone")){
 	
 
 	String curr=request.getParameter("curr");
 	String ccode=request.getParameter("ccode");
-	System.out.println("company_code:"+ccode);
+	
 	PreparedStatement p=conn.prepareStatement("Select* from curr_desc where curr_code=?");
 	p.setString(1, curr);
 	ResultSet r2=p.executeQuery();
@@ -146,7 +149,7 @@ else if(type.equalsIgnoreCase("phone")){
 	else{
 		out.println("not");
 	}
-	
+	conn.close();
 }
 else if(type.equalsIgnoreCase("r_phone")){
 	String curr=request.getParameter("curr");
@@ -181,6 +184,7 @@ else if(type.equalsIgnoreCase("r_phone")){
 	else{
 		out.println("not");
 	}
+	conn.close();
 }
 
 	

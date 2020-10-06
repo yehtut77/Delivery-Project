@@ -55,21 +55,32 @@ else if(type.equalsIgnoreCase("reason")){
 	while(rs.next()){
 		plus+="<option value="+rs.getString("reason_code")+">"+rs.getString("reason_description")+"</option>";
 	}
+	pre=conn.prepareStatement("Select agent_code,agent_name from agent where company_code=?");
+	pre.setString(1, ccode);
+	ResultSet r1=pre.executeQuery();
+	String agent="<option value='' selected>---Select---</option>";
+	while(r1.next()){
+		agent+="<option value="+r1.getString("agent_code")+">"+r1.getString("agent_code")+"-"+r1.getString("agent_name")+"</option>";
+	}
 	pre.close();
 	rs.close();
 	conn.close();
-	out.println(plus);
+	out.println(plus+"$"+agent);
 }
 else if(type.equalsIgnoreCase("track")){
 	String ccode=request.getParameter("ccode");
 	String barcode=request.getParameter("barcode");
-	System.out.println(barcode);
-	System.out.println(ccode);
-	pre=conn.prepareStatement("Select track_num from registration where company_code=? AND stat=? AND track_num=?");
+	String reason=request.getParameter("reason");
+	ResultSet rs=null;
+
+	pre=conn.prepareStatement("Select track_num from registration where company_code=? AND reason=? AND track_num=?");
 	pre.setString(1, ccode);
-	pre.setString(2, "U");
+	pre.setString(2, reason);
 	pre.setString(3, barcode);
-	ResultSet rs=pre.executeQuery();
+	
+	 rs=pre.executeQuery();
+	
+	
 	String reply="";
 	if(rs.next()==true){
 		out.println("ok"+"$"+rs.getString("track_num"));
@@ -82,13 +93,15 @@ else if(type.equalsIgnoreCase("track")){
 else if(type.equalsIgnoreCase("select")){
 	String ccode=request.getParameter("ccode");
 	String agent_code=request.getParameter("agent_code");
-	pre=conn.prepareStatement("Select staff_code,staff_name from staff where agent_code=? AND company_code=?");
+	pre=conn.prepareStatement("Select staff_code,staff_name,staff_authorizationcode from staff where agent_code=? AND company_code=?");
 	pre.setString(1, agent_code);
 	pre.setString(2, ccode);
 	ResultSet rs=pre.executeQuery();
 	String plus="<option value='' selected>---Select---</option>";
 while(rs.next()){
-	plus+="<option value="+rs.getString("staff_code")+">"+rs.getString("staff_name")+"</option>";
+	if(rs.getString("staff_authorizationcode").equalsIgnoreCase("staff")){
+	plus+="<option value="+rs.getString("staff_code")+">"+rs.getString("staff_code")+"-"+rs.getString("staff_name")+"</option>";
+	}
 }
 pre.close();
 rs.close();
@@ -152,7 +165,7 @@ else if(type.equalsIgnoreCase("submit")){
 	}
 	counter+=1;
 	//System.out.println("Counter"+counter);
-	String header="T"+String.format("%05d", counter);
+	String header="T"+arr[2]+arr[0]+String.format("%05d", counter);
 	pre=conn.prepareStatement("Update nextkey set period=? where company_code=? AND module=?");
 	pre.setString(1,String.format("%05d", counter));
 	pre.setString(2, ccode);

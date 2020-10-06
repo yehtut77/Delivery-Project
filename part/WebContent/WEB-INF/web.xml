@@ -232,6 +232,23 @@
    <servlet-name>RegisterCharges</servlet-name>
    <url-pattern>/rc</url-pattern>
 </servlet-mapping>
+<servlet>
+    <servlet-name>Wbpdf</servlet-name>
+    <jsp-file>/WEB-INF/waybill_creation_module/wb_pdf.jsp</jsp-file>
+</servlet>
+   <servlet-mapping>
+   <servlet-name>Wbpdf</servlet-name>
+   <url-pattern>/p</url-pattern>
+</servlet-mapping>
+<servlet>
+    <servlet-name>ReturnWaybill</servlet-name>
+    <jsp-file>/WEB-INF/waybill_creation_module/return_wb.jsp</jsp-file>
+</servlet>
+   <servlet-mapping>
+   <servlet-name>ReturnWaybill</servlet-name>
+   <url-pattern>/return</url-pattern>
+</servlet-mapping>
+
 
    <servlet>
     <servlet-name>DOPrintout</servlet-name>
@@ -581,5 +598,45 @@
 <servlet-mapping>
 	<servlet-name>AgentDailyReceiveReport</servlet-name>
 	<url-pattern>/AdCp</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>PickupFromCustomer_crdCustomer</servlet-name>
+	<jsp-file>/WEB-INF/PickupFromCustomer_crdCustomer/pickUp_from.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PickupFromCustomer_crdCustomer</servlet-name>
+	<url-pattern>/PIfc</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>PickupFromCustomer_crdCustomerStore</servlet-name>
+	<jsp-file>/WEB-INF/PickupFromCustomer_crdCustomer/Pickup_from_store.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PickupFromCustomer_crdCustomerStore</servlet-name>
+	<url-pattern>/PIfcS</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>PickupRequest</servlet-name>
+	<jsp-file>/WEB-INF/PickupRequest/pickupRequest.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PickupRequest</servlet-name>
+	<url-pattern>/PIr</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>PickupRequestStore</servlet-name>
+	<jsp-file>/WEB-INF/PickupRequest/pickupRequest_Add.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>PickupRequestStore</servlet-name>
+	<url-pattern>/PIrS</url-pattern>
+</servlet-mapping>
+<servlet>
+	<servlet-name>FectchPickupRequest</servlet-name>
+	<jsp-file>/WEB-INF/PickupRequest/fectch_pickupRequest.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>FectchPickupRequest</servlet-name>
+	<url-pattern>/fPIr</url-pattern>
 </servlet-mapping>
 </web-app>

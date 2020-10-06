@@ -15,36 +15,56 @@
 	
 	String agent_code=(String)ssss.getAttribute("parent_agent_code");
 	String staff_code=(String)ssss.getAttribute("staffCode");
-	String cust_code1=staff_code.substring(0,8);
-	String cust_code2=staff_code.substring(staff_code.length()-1);
-	
-	PreparedStatement t=con.prepareStatement("Select cust_name,cust_addr1,cust_addr2,cust_addr3,cust_addr4,cust_postal,cust_country,cust_phone,cust_email,currency from credit_cust where cust_code1=? AND cust_code2=?");
- t.setString(1, cust_code1);
- t.setString(2, cust_code2);
- ResultSet q=t.executeQuery();
- String sender_name=null;
- String cust_addr1=null;
- String cust_addr2=null;
- String cust_addr3=null;
- String cust_addr4=null;
- String cust_postal=null;
- String cust_country=null;
- String cust_phone=null;
- String cust_email=null;
- String currency=null;
- while(q.next()){
-	  sender_name=q.getString("cust_name");
-	  cust_addr1=q.getString("cust_addr1");
-	  cust_addr2=q.getString("cust_addr2");
-	  cust_addr3=q.getString("cust_addr3");
-	  cust_addr4=q.getString("cust_addr4");
-	  cust_postal=q.getString("cust_postal");
-	  cust_country=q.getString("cust_country");
-	  cust_phone=q.getString("cust_phone");
-	  cust_email=q.getString("cust_email");
-	  currency=q.getString("currency");
-	 
- }
+  
+    
+    String companytype=(String)ssss.getAttribute("companyType");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+    LocalDateTime now = LocalDateTime.now();
+    String date=dtf.format(now);
+    
+    int count=0;
+    
+    
+			String uom=null;
+			PreparedStatement uom_pre=con.prepareStatement("Select u_m from uom where isvalid_um=?");
+			uom_pre.setString(1, "1");
+			ResultSet uom_r=uom_pre.executeQuery();
+			while(uom_r.next()){
+				uom=uom_r.getString("u_m");
+			}
+			uom_r.close();
+			uom_pre.close();
+			String cust_code1=staff_code.substring(0,8);
+			String cust_code2=staff_code.substring(staff_code.length()-1);
+			PreparedStatement t=con.prepareStatement("Select cust_name,cust_addr1,cust_addr2,cust_addr3,cust_addr4,cust_postal,cust_country,cust_phone,cust_email,currency from credit_cust where cust_code1=? AND cust_code2=?");
+		 t.setString(1, cust_code1);
+		 t.setString(2, cust_code2);
+		 ResultSet q=t.executeQuery();
+		 String sender_name=null;
+		 String cust_addr1=null;
+		 String cust_addr2=null;
+		 String cust_addr3=null;
+		 String cust_addr4=null;
+		 String cust_postal=null;
+		 String cust_country=null;
+		 String cust_phone=null;
+		 String cust_email=null;
+		 String currency=null;
+		 while(q.next()){
+			  sender_name=q.getString("cust_name");
+			  cust_addr1=q.getString("cust_addr1");
+			  cust_addr2=q.getString("cust_addr2");
+			  cust_addr3=q.getString("cust_addr3");
+			  cust_addr4=q.getString("cust_addr4");
+			  cust_postal=q.getString("cust_postal");
+			  cust_country=q.getString("cust_country");
+			  cust_phone=q.getString("cust_phone");
+			  cust_email=q.getString("cust_email");
+			  currency=q.getString("currency");
+			 
+		 }
+		
+ 
  %>
 <html lang="en">
 
@@ -82,6 +102,7 @@ window.addEventListener( "pageshow", function ( event ) {
     <!-- Stylesheet -->
      <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="inputstyle.css">  
+    	 	 <link rel="stylesheet" href="assets/css/atlantis.min.css">
   <script>
 
 var n1='<%=n%>';
@@ -186,19 +207,33 @@ height:100px;
 box-shadow: -5px 5px 20px rgba(69, 65, 78, 0.21);
  
 }
-/* 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+
+.inbox {
+  background-color: transparent;
+  color: white;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+ 
+.inbox .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 4px 7px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+    transition: 0.4s;
+}
+  .inbox:hover .badge {
+  padding-left: -15px;
+  padding-right: 5px;
+  border-color: green;
 }
 
-/* Firefox */
-/* input[type=number] {
-  -moz-appearance:textfield;
-} */
-
- */
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
@@ -297,19 +332,7 @@ function myFunction() {
         <!-- Top Header Area Start -->
        
         <!-- Top Header Area End -->
-<%
 
-   
-    
-    
-    String companytype=(String)ssss.getAttribute("companyType");
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
-    LocalDateTime now = LocalDateTime.now();
-
-    String date=dtf.format(now);
-    
-       
-	%>
         <!-- Main Header Start -->
         <div class="main-header-area">
             <div class="classy-nav-container breakpoint-off">
@@ -335,20 +358,20 @@ function myFunction() {
                             <div class="classynav">
                                 <ul id="nav">
                                     
-                                     <li><a href="./index.jsp">Home</a></li>
                                     
-                                    <li class="drop-down"><a href="#">Operation</a>
-    						            <ul class="dropdown" style="width: 280px;">
-    						              <li> <a href="credit_customer_waybillQuery.jsp">Credit Customer Waybill Queries</a></li>
-    						              <li> <a href="credit_customer_query_main.jsp">Credit Customer  Queries</a></li>
-    						              
-    						            </ul>
-						          </li>
-                                    
-                                    <li class="active"><a href="register.jsp">WayBill</a>
-                                    </li><li ><a href="batch_waybill.jsp">Batch WayBill</a>
-                                    </li>
                                      
+                                     
+                                    
+                                 
+                                    
+                                    <li class="active"><a href="customer_waybill.jsp">WayBill</a>
+                                    </li>
+                                  
+                                     
+                                      
+                                     
+                                    
+                                   
                                     
                                     <li>
                                     
@@ -371,13 +394,7 @@ function myFunction() {
         </div>
     </header>
     <!-- Header Area End -->
-    
-     
-    
-	
-		
-   
-                    
+
 <!-- multistep form -->
 <div class="bod" style="background-color: #f2f2f2;"><br><br> 
 <form action="way_bill_pdf" enctype ="multipart/form-data" method="post" id="waybill_form">
@@ -526,8 +543,125 @@ function myFunction() {
  <h4>Sender Information</h4><br>
  
  <script>
-
+ 
+	
+	
 	$(document).ready(function(){
+		
+		
+		$('#s_name').val("<%=sender_name%>");
+		
+		$('#s_addr1').val("<%=cust_addr1%>");
+		$('#s_addr2').val("<%=cust_addr2%>");
+		$('#s_addr3').val("<%=cust_addr3%>");
+		$('#s_addr4').val("<%=cust_addr4%>");
+		$('#s_postcode').val("<%=cust_postal%>");
+		$("#s_country option").filter('[value=' +<%=cust_country%>+ ']').prop("selected", true);
+		$('#s_code').val("<%=staff_code%>");
+		$('#s_phone').val("<%=cust_phone%>");
+		var s="<%=cust_postal%>";
+		var f=s.substring(0,2);
+		var f1=s.substring(0,4);
+		var f2=s.substring(0,6);
+		var f3=s.substring(0,8);
+		$("#select1 option").filter('[about=' + f + ']').prop("selected", true);
+		$("#select2 option").filter('[id=' + f1 + ']').prop("selected", true);
+		$("#select3 option").filter('[about=' + f2 + ']').prop("selected", true);
+		$("#select4 option").filter('[about=' + f3 + ']').prop("selected", true);
+	
+
+		var maxLength = 35;
+		$('#s_addr1').keyup(function() {
+		  var textlen = maxLength - $(this).val().length;
+		  if( $(this).val().length>=35){
+			  $('#s_addr11').text("*Each textbox can contain 35 characters.");
+  			$('#s_addr11').css("color", "red");
+		  }
+		  else{
+			  $('#s_addr11').text("");
+		  }
+		});
+		$('#s_addr2').keyup(function() {
+			  var textlen = maxLength - $(this).val().length;
+			  if( $(this).val().length>=35){
+				  $('#s_addr22').text("*Each textbox can contain 35 characters.");
+	  			$('#s_addr22').css("color", "red");
+			  }
+			  else{
+				  $('#s_addr22').text("");
+			  }
+			});
+			
+		$('#s_addr3').keyup(function() {
+			  var textlen = maxLength - $(this).val().length;
+			  if( $(this).val().length>=35){
+				  $('#s_addr33').text("*Each textbox can contain 35 characters.");
+	  			$('#s_addr33').css("color", "red");
+			  } else{
+				  $('#s_addr33').text("");
+			  }
+			});
+			
+		$('#s_addr4').keyup(function() {
+			  var textlen = maxLength - $(this).val().length;
+			  if( $(this).val().length>=35){
+				  $('#s_addr44').text("*Each textbox can contain 35 characters.");
+	  			$('#s_addr44').css("color", "red");
+			  }
+			  else{
+				  $('#s_addr44').text("");
+			  }
+			});
+		
+		
+		
+		
+		$('#r_addr1').keyup(function() {
+			  var textlen = maxLength - $(this).val().length;
+			  if( $(this).val().length>=35){
+				  $('#r_addr11').text("*Each textbox can contain 35 characters.");
+	  			$('#r_addr11').css("color", "red");
+			  }
+			  else{
+				  $('#r_addr11').text("");
+			  }
+			});
+			$('#r_addr2').keyup(function() {
+				  var textlen = maxLength - $(this).val().length;
+				  if( $(this).val().length>=35){
+					  $('#r_addr22').text("*Each textbox can contain 35 characters.");
+		  			$('#r_addr22').css("color", "red");
+				  }
+				  else{
+					  $('#r_addr22').text("");
+				  }
+				});
+				
+			$('#r_addr3').keyup(function() {
+				  var textlen = maxLength - $(this).val().length;
+				  if( $(this).val().length>=35){
+					  $('#r_addr33').text("*Each textbox can contain 35 characters.");
+		  			$('#r_addr33').css("color", "red");
+				  } else{
+					  $('#r_addr33').text("");
+				  }
+				});
+				
+			$('#r_addr4').keyup(function() {
+				  var textlen = maxLength - $(this).val().length;
+				  if( $(this).val().length>=35){
+					  $('#r_addr44').text("*Each textbox can contain 35 characters.");
+		  			$('#r_addr44').css("color", "red");
+				  }
+				  else{
+					  $('#r_addr44').text("");
+				  }
+				});
+			
+		
+		
+		
+		
 		$("#waybill_form").submit(function(e){
 			e.preventDefault();
 			
@@ -538,8 +672,9 @@ function myFunction() {
 			 
 			 $('#select2').prop("disabled", false);
 			 $('#select22').prop("disabled", false);
-			
-			 
+			 $('#select11').prop("disabled", false);
+			 $('#s_country').prop("disabled", false);
+			 $('#s_curr').prop("disabled", false);
 			 $('#waybill_form').unbind("submit");
          	$('#waybill_form').submit() ;  
 		});
@@ -694,58 +829,61 @@ function myFunction() {
          
        <label class="pure-material-textfield-outlined">
 		<input type="text"  type="text" id="s_phone" onkeypress="javascript:return noLetter(event)" oninvalid="this.setCustomValidity('Please Enter Sender Phone')"
-        oninput="setCustomValidity('')"  name="sender_phone" placeholder=" "required />
+        oninput="setCustomValidity('')"  name="sender_phone" readonly placeholder=" "required />
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Sender Phone</span>
 		</label>
 		
        </div> 
-       <div class="form-group"> 
+ 		
+		  <div class="form-group"> 
        
         <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_name" onkeypress="javascript:return isLetter(event)" id="s_name" required  oninvalid="this.setCustomValidity('Please Enter Sender Name')"
+		<input type="text" name="sender_name" readonly onkeypress="javascript:return isLetter(event)" id="s_name" required  oninvalid="this.setCustomValidity('Please Enter Sender Name')"
         oninput="setCustomValidity('')" placeholder=" " required />
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Sender Name</span>
 		</label>
 		 </div>
- 		
-		
       
       <div class="form-group"> 
        
       <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_address1" placeholder=" " required id="s_addr1" oninvalid="this.setCustomValidity('Please Enter Sender Address')"
+		<input type="text" name="sender_address1" readonly placeholder=" "  class="limit" maxlength="35" required id="s_addr1" oninvalid="this.setCustomValidity('Please Enter Sender Address')"
         oninput="setCustomValidity('')"/>
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Sender Address 1</span>
 		</label>
+	<small id="s_addr11"></small>
        </div>
       
        
          <div class="form-group"> 
          
          <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_address2" id="s_addr2" placeholder=" "/>
+		<input type="text" class="limit" readonly name="sender_address2" maxlength="35" id="s_addr2" placeholder=" "/>
 		<span>Sender Address 2(optional)</span>
 		</label>
+		<small id="s_addr22"></small>
          </div>   
       
          <div class="form-group"> 
         
          <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_address3" id="s_addr3" placeholder=" "  />
+		<input type="text" class="limit" readonly name="sender_address3" maxlength="35" id="s_addr3" placeholder=" "  />
 		<span>Sender Address 3(optional)</span>
 		</label>
+		<small id="s_addr33"></small>
           </div>
          
          <div class="form-group"> 
           
          <label class="pure-material-textfield-outlined">
-		<input type="text" name="sender_address4" id="s_addr4" placeholder=" "  />
+		<input type="text" class="limit" readonly name="sender_address4" maxlength="35" id="s_addr4" placeholder=" "  />
 		<span>Sender Address 4(optional)</span>
 		</label>
+		<small id="s_addr44"></small>
          </div> 
          
         
-       
+     
  
          
        </div>
@@ -755,7 +893,7 @@ function myFunction() {
           <div class="form-group"> 
             
 	 <label class="pure-material-textfield-outlined">
-	 <select class="custom-select custom-select-md"  name="sender_currency" id="s_curr" required >
+	 <select class="custom-select custom-select-md"  name="sender_currency" id="s_curr" required disabled >
 	 <option value="" selected>---Select---</option>
 	 
 	 <%Statement s=con.createStatement();
@@ -773,7 +911,7 @@ function myFunction() {
       
       <div class="form-group"> 
 	 <label class="pure-material-textfield-outlined">
-	 <select class="custom-select custom-select-md"  name="sender_country" id="s_country" required>
+	 <select class="custom-select custom-select-md"  name="sender_country" id="s_country" required disabled>
 	  <option value=""  selected> ---Select --</option>
 	  <% PreparedStatement c_pre=con.prepareStatement("Select description,country_code from country");
 	  ResultSet c_result=c_pre.executeQuery();
@@ -788,7 +926,7 @@ function myFunction() {
    
        <div class="form-group"> 
        <label class="pure-material-textfield-outlined">
-     	<select  class="custom-select custom-select-md"  name="select1" id="select1" required >
+     	<select  class="custom-select custom-select-md" readonly  name="select1" id="select1" required disabled>
            			<option value="0" selected> ---Select --</option>
 	       <%
 						PreparedStatement pre =con.prepareStatement("Select* from state");
@@ -807,7 +945,7 @@ function myFunction() {
      
  	<div class="form-group"> 
 	 <label class="pure-material-textfield-outlined">
-	<select class="custom-select custom-select-md"  name="select2" id="select2" required disabled >
+	<select class="custom-select custom-select-md" name="select2" id="select2" required  disabled >
    
    				<option value="0" selected> ---Select --</option>
   
@@ -834,7 +972,7 @@ function myFunction() {
     
  	<div class="form-group"> 
  	 <label class="pure-material-textfield-outlined">
-	<select class="custom-select custom-select-md"   name="select3" id="select3" disabled>
+	<select class="custom-select custom-select-md"   name="select3" id="select3"  disabled>
 	 				<option  selected> ---Select --</option>
 	 
 	 <%
@@ -863,7 +1001,7 @@ function myFunction() {
 
  	<div class="form-group"> 
  	 <label class="pure-material-textfield-outlined">
- 	<select class="custom-select custom-select-md"  name="select4" id="select4" disabled>
+ 	<select class="custom-select custom-select-md"  name="select4" id="select4"  disabled>
 					<option  value="0" selected>---Select---</option>
  
   <%			
@@ -888,7 +1026,7 @@ function myFunction() {
 
 		<div class="form-group"> 
 		<label class="pure-material-textfield-outlined">
-		<input type="text" id="s_postcode"  onkeypress="javascript:return isNumber(event)" name="sender_postal"    placeholder=" "required />
+		<input type="text" id="s_postcode" readonly onkeypress="javascript:return isNumber(event)" name="sender_postal"    placeholder=" "required />
 		<span>Sender Postal </span>
 		</label>
 		</div> 
@@ -1052,7 +1190,7 @@ $(document).ready(function(){
 			var r_phone=$("#r_phone").val();
 			if(r_phone!="" || r_phone!=null ||r_phone!=" "){
 				$.ajax({
-		    		url: "register_charges.jsp",
+		    		url: "rc",
 		    		type: 'POST',
 		    		
 		    		data: {
@@ -1133,134 +1271,25 @@ $(document).ready(function(){
 		
 		$("#rcvr_type option").filter('[value=02]').prop("selected", true);
 		
-		/* $('#s_phone').focusout(function() {
-			 var check1=$("#s_curr").children("option:selected").val();
-			 
-			var s_phone=$("#s_phone").val();
-			if(s_phone!="" || s_phone!=null || s_phone!=" "){
 		
-				$.ajax({
-		    		url: "register_charges.jsp",
-		    		type: 'POST',
-		    		
-		    		data: {
-		    			s_phone:s_phone,
-		    			
-		    			curr:check1,
-		    			type:"phone",
-		    			ccode:$('#ccode').val(),
-		    			
-		    			
-		    		    
-		    		},
-		    		success: function(data) {
-		    		//$('#city_name').val(data);
-		    	
-		    		
-		    		if(data.trim()=="not"){
-		    			$('#s_code').val("N0-######");
-		    			$('#s_name').prop("readonly", false);
-			    		$('#s_addr1').prop("readonly", false);
-			    		$('#s_addr2').prop("readonly", false);
-			    		$('#s_addr3').prop("readonly", false);
-			    		$('#s_addr4').prop("readonly", false);
-			    		$('#s_addr4').prop("readonly", false);
-			    		$('#s_postcode').prop("readonly", false);
-			    		$('#s_country').prop("disabled", false);
-		    			$('#s_name').val("");
-			    		$('#s_addr1').val("");
-			    		$('#s_addr2').val("");
-			    		$('#s_addr3').val("");
-			    		$('#s_addr4').val("");
-			    		$('#s_postcode').val("");
-			    		
-			    
-			    		 $("#select1").val("---Select---").prop("selected", true);
-						 $("#select2").val("---Select---").prop("selected", true);
-						 $("#select3").val("---Select---").prop("selected", true);
-						 $("#select4").val("---Select---").prop("selected", true);
-		    		}
-		    		else{
-		    	
-		    		
-		    		var arr=data.trim().split("$");
-		    		var a=arr[7].substr(1,1)
-		    		
-		    		if(a=="C"){
-		    		$('#s_name').prop("readonly", true);
-		    		$('#s_addr1').prop("readonly", true);
-		    		$('#s_addr2').prop("readonly", true);
-		    		$('#s_addr3').prop("readonly", true);
-		    		$('#s_addr4').prop("readonly", true);
-		    		$('#s_addr4').prop("readonly", true);
-		    		$('#s_postcode').prop("readonly", true);
-		    		$('#s_country').prop("disabled", true);
-		    		
-		    		}
-		    		if(a=="N"){
-			    		$('#s_name').prop("readonly", false);
-			    		$('#s_addr1').prop("readonly", false);
-			    		$('#s_addr2').prop("readonly", false);
-			    		$('#s_addr3').prop("readonly", false);
-			    		$('#s_addr4').prop("readonly", false);
-			    		$('#s_addr4').prop("readonly", false);
-			    		$('#s_postcode').prop("readonly", false);
-			    		$('#s_country').prop("disabled", false);
-			    		
-			    		}
-		    		
-		    		
-		    		
-		    		$('#s_name').val(arr[0]);
-		    		$('#s_addr1').val(arr[1]);
-		    		$('#s_addr2').val(arr[2]);
-		    		$('#s_addr3').val(arr[3]);
-		    		$('#s_addr4').val(arr[4]);
-		    		$('#s_postcode').val(arr[5]);
-		    		$("#s_country option").filter('[value=' +arr[6]+ ']').prop("selected", true);
-		    		$('#s_code').val(arr[7]);
-		    		var s=arr[5];
-		    		var f=s.substring(0,2);
-					var f1=s.substring(0,4);
-					var f2=s.substring(0,6);
-					var f3=s.substring(0,8);
-					$("#select1 option").filter('[about=' + f + ']').prop("selected", true);
-					$("#select2 option").filter('[id=' + f1 + ']').prop("selected", true);
-					$("#select3 option").filter('[about=' + f2 + ']').prop("selected", true);
-					$("#select4 option").filter('[about=' + f3 + ']').prop("selected", true);
-		    		}
-		    		
-		    		
-		    		
-		    		
-		    		}
-		}); 
-				
+		$('#rcvr_type').change(function() {
+			var value=$("#rcvr_type").children("option:selected").text();
+			value=value.trim().toLowerCase().replace(/-/,"");
+			value=value.replace(/\s/g,'');
+			if(value=="walkin"){
+				$('#discount').removeClass( "d-none" );
 			}
-		}); */
-		$('#s_name').val("<%=sender_name%>");
-		
-		$('#s_addr1').val("<%=cust_addr1%>");
-		$('#s_addr2').val("<%=cust_addr2%>");
-		$('#s_addr3').val("<%=cust_addr3%>");
-		$('#s_addr4').val("<%=cust_addr4%>");
-		$('#s_postcode').val("<%=cust_postal%>");
-		$("#s_country option").filter('[value=' +<%=cust_country%>+ ']').prop("selected", true);
-		$('#s_code').val("<%=staff_code%>");
-		$('#s_phone').val("<%=cust_phone%>");
-		var s="<%=cust_postal%>";
-		var f=s.substring(0,2);
-		var f1=s.substring(0,4);
-		var f2=s.substring(0,6);
-		var f3=s.substring(0,8);
-		$("#select1 option").filter('[about=' + f + ']').prop("selected", true);
-		$("#select2 option").filter('[id=' + f1 + ']').prop("selected", true);
-		$("#select3 option").filter('[about=' + f2 + ']').prop("selected", true);
-		$("#select4 option").filter('[about=' + f3 + ']').prop("selected", true);
+			else{
+				$('#discount').addClass( "d-none" );
+			}
+			
+			
+		})
 		
 		
+	
 		var total;
-				 $('#weight').focusout(function() {
+			 $('#calculate').click(function() {
 			
 			 var check1=$("#s_curr").children("option:selected").val();
 		 	var check2=$("#r_curr").children("option:selected").val();
@@ -1268,14 +1297,17 @@ $(document).ready(function(){
 		 	var r_postcode=$("#r_postcode").val();
 		 	var size=$("#size").val();
 		 	var weight=$("#weight").val();
-		 	
-		 if(size==null){
-		     $("#weight").focus();
-		 }
+		 	if(s_postcode=="" || s_postcode==null){
+		 		$("#select1").focus();
+		 	}
+		 	else if(r_postcode=="" || r_postcode==null){
+		 		$("#select11").focus();
+		 	}
+		
 		 	if(check1!="" && check2!="" && s_postcode!="" && r_postcode!="" && size!="" && weight!=""){
 		 		
 		 		$.ajax({
-		    		url: "register_charges.jsp",
+		    		url: "rc",
 		    		type: 'POST',
 		    		data: {
 		    			s_postcode:s_postcode,
@@ -1334,7 +1366,7 @@ $(document).ready(function(){
 		 });
 		
 		
-		 $('#size').focusout(function() {
+		/*  $('#size').focusout(function() {
 			
 			 var check1=$("#s_curr").children("option:selected").val();
 		 	var check2=$("#r_curr").children("option:selected").val();
@@ -1348,7 +1380,7 @@ $(document).ready(function(){
 		 	if(check1!="" && check2!="" && s_postcode!="" && r_postcode!="" && size!="" && weight!=""){
 		 		
 		 		$.ajax({
-		    		url: "register_charges.jsp",
+		    		url: "rc",
 		    		type: 'POST',
 		    		data: {
 		    			s_postcode:s_postcode,
@@ -1404,16 +1436,75 @@ $(document).ready(function(){
 			 
 			     
 			
-		 });
+		 }); */
 		 $('#product_amount').keyup(function(){
-			 var num=parseInt($('#product_amount').val());
+			 var num=$('#product_amount').val();
+			 if(num!=null && typeof num!="undefined" && num!=" " && num!="" && total!=null && typeof total!="undefined" && total!=" " && total!=""){
+			
+				num= parseInt($('#product_amount').val());
 			 $('#total').val(num+total);
+				 
+			 }
+		 });
+		 $('#length').keyup(function(){
+			 var length=$('#length').val();
+			 var width=$('#width').val();
+			 var height=$('#height').val();
+			 if(length!=null && typeof length!="undefined" && length!=" " && length!=""){
+				 length=parseInt(length);
+			 }
+			 if(width!=null && typeof width!="undefined" && width!=" "  && width!=""){
+				 width=parseInt(width);
+			 }
+			 if(height!=null && typeof height!="undefined" && height!=" " && height!=""){
+				 height=parseInt(height);
+			 }
+			 if(typeof length === 'number' && typeof width === 'number' && typeof height === 'number'  ){
+				 $('#size').val(length*width*height);
+			 }
+			
+		 });
+		 $('#width').keyup(function(){
+			 var length=$('#length').val();
+			 var width=$('#width').val();
+			 var height=$('#height').val();
+			 if(length!=null && typeof length!="undefined" && length!=" " && length!=""){
+				 length=parseInt(length);
+			 }
+			 if(width!=null && typeof width!="undefined" && width!=" "  && width!=""){
+				 width=parseInt(width);
+			 }
+			 if(height!=null && typeof height!="undefined" && height!=" " && height!=""){
+				 height=parseInt(height);
+			 }
+			 if(typeof length === 'number' && typeof width === 'number' && typeof height === 'number'  ){
+				 $('#size').val(length*width*height);
+			 }
+			
+		 });
+		 $('#height').keyup(function(){
+			 var length=$('#length').val();
+			 var width=$('#width').val();
+			 var height=$('#height').val();
+			 if(length!=null && typeof length!="undefined" && length!=" " && length!=""){
+				 length=parseInt(length);
+			 }
+			 if(width!=null && typeof width!="undefined" && width!=" "  && width!=""){
+				 width=parseInt(width);
+			 }
+			 if(height!=null && typeof height!="undefined" && height!=" " && height!=""){
+				 height=parseInt(height);
+			 }
+			 if(typeof length === 'number' && typeof width === 'number' && typeof height === 'number'  ){
+				 $('#size').val(length*width*height);
+			 }
+			
 		 });
 		 
 		 $("#w_type").change(function(){
 			    var type = $(this).children("option:selected").text();
 			    type=type.trim().toLowerCase().replace(/\s/g,'');
-			   
+			  
 			   if(type=="COD" || type=="cashondelivery"){
 				   $('#product_amount').prop("disabled", false);
 			   }
@@ -1466,31 +1557,35 @@ $(document).ready(function(){
      
      <div class="form-group"> 
        <label class="pure-material-textfield-outlined">
-		<input type="text" id="r_addr1"  name="r_addr1"  placeholder=" " required/>
+		<input type="text" id="r_addr1" class="limit" maxlength="35" name="r_addr1"  placeholder=" " required/>
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Receiver Address 1</span>
 		</label>
+		<small id="r_addr11"></small>
        </div> 
        
 
     <div class="form-group"> 
         <label class="pure-material-textfield-outlined">
-		<input type="text" id="r_addr2" name="r_addr2"  placeholder=" "  />
+		<input type="text" id="r_addr2" class="limit" maxlength="35" name="r_addr2"  placeholder=" "  />
 		<span>Receiver Address 2</span>
 		</label>
+		<small id="r_addr22"></small>
         </div> 
        
          <div class="form-group"> 
         <label class="pure-material-textfield-outlined">
-		<input type="text" id="r_addr3" name="r_addr3"  placeholder=" " />
+		<input type="text" id="r_addr3" class="limit" maxlength="35" name="r_addr3"  placeholder=" " />
 		<span>Receiver Address 3</span>
 		</label>
+		<small id="r_addr33"></small>
         </div> 
         
          <div class="form-group"> 
         <label class="pure-material-textfield-outlined">
-		<input type="text" id="r_addr4" name="r_addr4"  placeholder=" " />
+		<input type="text" id="r_addr4" class="limit" maxlength="35" name="r_addr4"  placeholder=" " />
 		<span>Receiver Address 4</span>
 		</label>
+		<small id="r_addr44"></small>
         </div> 
         
       
@@ -1656,9 +1751,8 @@ $(document).ready(function(){
 
 <%-- End Sender and Receiver Information  --%>
 
-<%-- 
-<% con.close();}catch(Exception e){e.printStackTrace();}  
-%> --%>
+ 
+
 
 <br><br>
 
@@ -1690,7 +1784,8 @@ $(document).ready(function(){
      </label>
 	 </div> 
 	 
-	 <div class="form-group"> 
+	 <div class="form-row align-items-center form-group"> 
+	 <div class="col-10">
 	  <label class="pure-material-textfield-outlined">
 	 <select class="custom-select custom-select-md"  name="receiving_type" id="rcvr_type" required >
 	 <option  selected> ---Select Receive type --</option>
@@ -1711,7 +1806,8 @@ $(document).ready(function(){
 	 </select>
 	 <span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Receiving type</span>
      </label>
-	 </div> 
+	 </div> &nbsp;<span class="d-none" id="discount"><b>5%</b></span>
+	 </div>
 	 
 	 <div class="form-group"> 
         <label class="pure-material-textfield-outlined">
@@ -1728,7 +1824,7 @@ $(document).ready(function(){
    <div class="form-group"> 
 	  <label class="pure-material-textfield-outlined">
 	  <select name="drop_point" >
-	 <option  selected> ---Select Drop-point --</option>
+	 <option value="" selected> ---Select Drop-point --</option>
 	 <% 
 	PreparedStatement ps14=con.prepareStatement("select agent_code,agent_name from  agent where type='d' And company_code="+ccode); 		
 	ResultSet rs14=ps14.executeQuery();  
@@ -1745,7 +1841,7 @@ $(document).ready(function(){
   
    <div class="form-group">
 												<label for="comment">Item Description</label>
-												<textarea class="form-control" name="item_description" id="comment" rows="5">
+												<textarea class="form-control" name="item_description" id="comment" rows="5"  required>
 												</textarea>
 											</div>
         
@@ -1766,33 +1862,62 @@ $(document).ready(function(){
 <div class="row">
 <div class="col-12 col-lg-12">
 <div class="card">
-<div class="m" style="margin:10px;">
+<div class="card-body">
 
 <h4>Size and Weight Information</h4><br>
 	
 	<div class="row">
 	<div class="col-12 col-lg-6">
+	<div class="form-row align-items-center">
+    <div class="col-auto">
+      <label for="length">Length</label>
+      <input type="text" class="form-control mb-2" onkeypress="javascript:return noLetter(event)" id="length" placeholder="Length" size="4">
+    </div>
+	&times;
+    
+<div class="col-auto">
+      <label for="width">Width</label>
+      <input type="text" class="form-control mb-2" onkeypress="javascript:return noLetter(event)" id="width" placeholder="Width" size="4">
+    </div>
+   &times;
 	
-	<div class="form-group"> 
+	<div class="col-auto">
+      <label for="height">Height</label>
+      <input type="text" class="form-control mb-2" onkeypress="javascript:return noLetter(event)" id="height" placeholder="Height" size="4">
+    </div>
+   &equals;
+	<div class="col-auto">
+      <label for="Size">Size</label>
+     <input type="text" class="form-control mb-2" onkeypress="javascript:return noLetter(event)" name="size"  onkeypress="javascript:return noLetter(event)" placeholder="Size" id="size" size="4"readonly required/>
+    </div>
+    <span><b>sqin</b></span>
+    
+	<!-- <div class="col-auto">
         <label class="pure-material-textfield-outlined">
-		<input type="text"  name="weight" id="weight" onkeypress="javascript:return noLetter(event)" placeholder=" " required/>
-		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Weight</span>
-		</label>
-        </div> 
-        
-	</div>
-	<div class="col-12 col-lg-6">
-	
-	<div class="form-group"> 
-        <label class="pure-material-textfield-outlined">
-		<input type="text"  name="size"  onkeypress="javascript:return noLetter(event)" placeholder=" " id="size" required/>
+		<input type="text"  name="size"  onkeypress="javascript:return noLetter(event)" placeholder=" " id="size"required/>
+		
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Size</span>
 		</label>
-        </div> 
+         </div> -->
+     
+    </div>
+       
+	</div>
+	<div class="col-12 col-lg-6">
+	<div class="form-row align-items-center">
+	<div class="col-auto">
+      <label  for="Weight">Weight</label>
+   <input type="text" class="form-control mb-2" name="weight" id="weight" onkeypress="javascript:return noLetter(event)" placeholder="Weight" size="50" required/>
+    </div>
+      <span><b><%=uom%></b></span> 
+        
         
 	</div>
 	</div>
-   
+	</div>
+	<br>
+	<div class="row"><div class="col-lg-12 col-sm-12 text-center"><button type="button" class="btn btn-primary btn-sm" id="calculate">Calculate Pricing</button></div></div>
+
    </div></div><br><br>
 </div>
 </div>
@@ -1819,6 +1944,7 @@ $(document).ready(function(){
 		<input type="text"  name="product_amt"  onkeypress="javascript:return noLetter(event)" placeholder="" id="product_amount" disabled required/>
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Product Amount</span>
 		</label>
+		<small id="charges_error"></small>
         </div> 
 	  
 	 
@@ -1856,7 +1982,7 @@ $(document).ready(function(){
 
 </div><%--End Container --%>
 
-<%con.close(); %>
+
 
 <script>
 
@@ -1984,9 +2110,12 @@ $('#planneddate').change(function() {
 	<!-- Size and Weight Information End -->
 
 <br><br>
-   <center><input type="submit" class="btn delivery-btn1 btn-3 mt-15 active" id="sub" value="Complete"></center>
+   <center><button type="submit" class="btn btn-primary" id="sub">Complete</button></center>
 </div>
 </form>
+
+<% con.close();
+%> 
 
 </div>
     </section>

@@ -37,11 +37,12 @@
 	    pre_for_PCC.setString(2,ccode);	 
 			ResultSet rs_for_PCC = pre_for_PCC.executeQuery();
 			if (rs_for_PCC.next()) {
-			String testmainagent=rs_for_PCC.getString("main_agent").trim();
+			String testmainagent=rs_for_PCC.getString("main_agent");
+			if(testmainagent==null){ mainagent="no"; }else{
 			if(testmainagent.equals("on")){
 			   mainagent="yes"; 
 			}
-			    
+			   } 
 			}
 			String monthlyincome="no";
 				String staff_dept_des="";
@@ -78,6 +79,16 @@
 			if(staff_dept_des.equals("Accounts") || staff_role_des.equals("Supervisor") ||  staff_role_des.equals("Manager")) {
 			    monthlyincome="yes";
 			}
+			String uom=null;
+			PreparedStatement uom_pre=con.prepareStatement("Select u_m from uom where isvalid_um=?");
+			uom_pre.setString(1, "1");
+			ResultSet uom_r=uom_pre.executeQuery();
+			while(uom_r.next()){
+				uom=uom_r.getString("u_m");
+			}
+			uom_r.close();
+			uom_pre.close();
+			
  
  %>
 <html lang="en">
@@ -342,7 +353,7 @@ function myFunction() {
     <!-- /Preloader -->
 
     <!-- Header Area Start -->
-    <header class="header-area">
+      <header class="header-area">
         <!-- Top Header Area Start -->
        
         <!-- Top Header Area End -->
@@ -401,7 +412,7 @@ function myFunction() {
        									     <li> <a href="consolidate.jsp">Consolidate</a></li>
        									    <li><a href="CCQ">Credit Customer Query</a></li>	
        									    <li><a href="return_wb.jsp">Return Waybill</a></li>
-       									    <li> <a href="pickUp_from.jsp">Pick up from customer</a></li>
+       									    <li> <a href="PIfc">Pick up from customer</a></li>
        									   
        									   
        									     <li> <a href="RC">Receiver Confirmation</a></li>
@@ -415,7 +426,7 @@ function myFunction() {
     									
                                     </li>
                                     
-                                    <li class="active"><a href="register.jsp">WayBill</a>
+                                    <li class="active"><a href="wb">WayBill</a>
                                     </li>
                                     <li ><a href="batch_waybill.jsp">Batch WayBill</a>
                                     </li>
@@ -631,6 +642,8 @@ function myFunction() {
 	$(document).ready(function(){
 		var mainagent='<%=mainagent%>';
       var monthlyincome='<%=monthlyincome%>';
+    
+      
       
       if(monthlyincome=='yes'){
             $('#mirc').show();
@@ -648,12 +661,94 @@ $('#pcca').hide();
 }
 
 		var maxLength = 35;
-		$('.limit').keyup(function() {
+		$('#s_addr1').keyup(function() {
 		  var textlen = maxLength - $(this).val().length;
 		  if( $(this).val().length>=35){
-			  alert("Each Address box can contain 35 characters");
+			  $('#s_addr11').text("*Each textbox can contain 35 characters.");
+  			$('#s_addr11').css("color", "red");
+		  }
+		  else{
+			  $('#s_addr11').text("");
 		  }
 		});
+		$('#s_addr2').keyup(function() {
+			  var textlen = maxLength - $(this).val().length;
+			  if( $(this).val().length>=35){
+				  $('#s_addr22').text("*Each textbox can contain 35 characters.");
+	  			$('#s_addr22').css("color", "red");
+			  }
+			  else{
+				  $('#s_addr22').text("");
+			  }
+			});
+			
+		$('#s_addr3').keyup(function() {
+			  var textlen = maxLength - $(this).val().length;
+			  if( $(this).val().length>=35){
+				  $('#s_addr33').text("*Each textbox can contain 35 characters.");
+	  			$('#s_addr33').css("color", "red");
+			  } else{
+				  $('#s_addr33').text("");
+			  }
+			});
+			
+		$('#s_addr4').keyup(function() {
+			  var textlen = maxLength - $(this).val().length;
+			  if( $(this).val().length>=35){
+				  $('#s_addr44').text("*Each textbox can contain 35 characters.");
+	  			$('#s_addr44').css("color", "red");
+			  }
+			  else{
+				  $('#s_addr44').text("");
+			  }
+			});
+		
+		
+		
+		
+		$('#r_addr1').keyup(function() {
+			  var textlen = maxLength - $(this).val().length;
+			  if( $(this).val().length>=35){
+				  $('#r_addr11').text("*Each textbox can contain 35 characters.");
+	  			$('#r_addr11').css("color", "red");
+			  }
+			  else{
+				  $('#r_addr11').text("");
+			  }
+			});
+			$('#r_addr2').keyup(function() {
+				  var textlen = maxLength - $(this).val().length;
+				  if( $(this).val().length>=35){
+					  $('#r_addr22').text("*Each textbox can contain 35 characters.");
+		  			$('#r_addr22').css("color", "red");
+				  }
+				  else{
+					  $('#r_addr22').text("");
+				  }
+				});
+				
+			$('#r_addr3').keyup(function() {
+				  var textlen = maxLength - $(this).val().length;
+				  if( $(this).val().length>=35){
+					  $('#r_addr33').text("*Each textbox can contain 35 characters.");
+		  			$('#r_addr33').css("color", "red");
+				  } else{
+					  $('#r_addr33').text("");
+				  }
+				});
+				
+			$('#r_addr4').keyup(function() {
+				  var textlen = maxLength - $(this).val().length;
+				  if( $(this).val().length>=35){
+					  $('#r_addr44').text("*Each textbox can contain 35 characters.");
+		  			$('#r_addr44').css("color", "red");
+				  }
+				  else{
+					  $('#r_addr44').text("");
+				  }
+				});
+			
+		
 		
 		
 		
@@ -845,6 +940,7 @@ $('#pcca').hide();
         oninput="setCustomValidity('')"/>
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Sender Address 1</span>
 		</label>
+	<small id="s_addr11"></small>
        </div>
       
        
@@ -854,6 +950,7 @@ $('#pcca').hide();
 		<input type="text" class="limit" name="sender_address2" maxlength="35" id="s_addr2" placeholder=" "/>
 		<span>Sender Address 2(optional)</span>
 		</label>
+		<small id="s_addr22"></small>
          </div>   
       
          <div class="form-group"> 
@@ -862,6 +959,7 @@ $('#pcca').hide();
 		<input type="text" class="limit" name="sender_address3" maxlength="35" id="s_addr3" placeholder=" "  />
 		<span>Sender Address 3(optional)</span>
 		</label>
+		<small id="s_addr33"></small>
           </div>
          
          <div class="form-group"> 
@@ -870,6 +968,7 @@ $('#pcca').hide();
 		<input type="text" class="limit" name="sender_address4" maxlength="35" id="s_addr4" placeholder=" "  />
 		<span>Sender Address 4(optional)</span>
 		</label>
+		<small id="s_addr44"></small>
          </div> 
          
         
@@ -1261,6 +1360,22 @@ $(document).ready(function(){
 		
 		$("#rcvr_type option").filter('[value=02]').prop("selected", true);
 		
+		
+		$('#rcvr_type').change(function() {
+			var value=$("#rcvr_type").children("option:selected").text();
+			value=value.trim().toLowerCase().replace(/-/,"");
+			value=value.replace(/\s/g,'');
+			if(value=="walkin"){
+				$('#discount').removeClass( "d-none" );
+			}
+			else{
+				$('#discount').addClass( "d-none" );
+			}
+			
+			
+		})
+		
+		
 		$('#s_phone').focusout(function() {
 			 var check1=$("#s_curr").children("option:selected").val();
 			 
@@ -1367,7 +1482,7 @@ $(document).ready(function(){
 			}
 		});
 		var total;
-			 $('#weight').focusout(function() {
+			 $('#calculate').click(function() {
 			
 			 var check1=$("#s_curr").children("option:selected").val();
 		 	var check2=$("#r_curr").children("option:selected").val();
@@ -1375,10 +1490,13 @@ $(document).ready(function(){
 		 	var r_postcode=$("#r_postcode").val();
 		 	var size=$("#size").val();
 		 	var weight=$("#weight").val();
-		 	
-		 if(size==null){
-		     $("#weight").focus();
-		 }
+		 	if(s_postcode=="" || s_postcode==null){
+		 		$("#select1").focus();
+		 	}
+		 	else if(r_postcode=="" || r_postcode==null){
+		 		$("#select11").focus();
+		 	}
+		
 		 	if(check1!="" && check2!="" && s_postcode!="" && r_postcode!="" && size!="" && weight!=""){
 		 		
 		 		$.ajax({
@@ -1430,7 +1548,11 @@ $(document).ready(function(){
 		    		
 		    		
 		    		
-		    		}
+		    		},
+		    		 error: function (data) {
+		    			 $('#charges_error').text("*Charges for this location doesn't exist.");
+			    			$("#charges_error").css("color", "red");
+		    	        },
 		}); 
 		 		
 		 	} 
@@ -1441,7 +1563,7 @@ $(document).ready(function(){
 		 });
 		
 		
-		 $('#size').focusout(function() {
+		/*  $('#size').focusout(function() {
 			
 			 var check1=$("#s_curr").children("option:selected").val();
 		 	var check2=$("#r_curr").children("option:selected").val();
@@ -1511,10 +1633,71 @@ $(document).ready(function(){
 			 
 			     
 			
+		 }); */
+		 $('#product_amount').keyup(function(e){
+			 var num=$('#product_amount').val();
+			 if(num!=null && typeof num!="undefined" && num!=" " && num!="" && total!=null && typeof total!="undefined" && total!=" " && total!=""){
+				
+				 num= parseInt($('#product_amount').val());
+				 $('#total').val(num+total);
+				
+				 
+			 }
 		 });
-		 $('#product_amount').keyup(function(){
-			 var num=parseInt($('#product_amount').val());
-			 $('#total').val(num+total);
+		
+		 $('#length').keyup(function(){
+			 var length=$('#length').val();
+			 var width=$('#width').val();
+			 var height=$('#height').val();
+			 if(length!=null && typeof length!="undefined" && length!=" " && length!=""){
+				 length=parseInt(length);
+			 }
+			 if(width!=null && typeof width!="undefined" && width!=" "  && width!=""){
+				 width=parseInt(width);
+			 }
+			 if(height!=null && typeof height!="undefined" && height!=" " && height!=""){
+				 height=parseInt(height);
+			 }
+			 if(typeof length === 'number' && typeof width === 'number' && typeof height === 'number'  ){
+				 $('#size').val(length*width*height);
+			 }
+			
+		 });
+		 $('#width').keyup(function(){
+			 var length=$('#length').val();
+			 var width=$('#width').val();
+			 var height=$('#height').val();
+			 if(length!=null && typeof length!="undefined" && length!=" " && length!=""){
+				 length=parseInt(length);
+			 }
+			 if(width!=null && typeof width!="undefined" && width!=" "  && width!=""){
+				 width=parseInt(width);
+			 }
+			 if(height!=null && typeof height!="undefined" && height!=" " && height!=""){
+				 height=parseInt(height);
+			 }
+			 if(typeof length === 'number' && typeof width === 'number' && typeof height === 'number'  ){
+				 $('#size').val(length*width*height);
+			 }
+			
+		 });
+		 $('#height').keyup(function(){
+			 var length=$('#length').val();
+			 var width=$('#width').val();
+			 var height=$('#height').val();
+			 if(length!=null && typeof length!="undefined" && length!=" " && length!=""){
+				 length=parseInt(length);
+			 }
+			 if(width!=null && typeof width!="undefined" && width!=" "  && width!=""){
+				 width=parseInt(width);
+			 }
+			 if(height!=null && typeof height!="undefined" && height!=" " && height!=""){
+				 height=parseInt(height);
+			 }
+			 if(typeof length === 'number' && typeof width === 'number' && typeof height === 'number'  ){
+				 $('#size').val(length*width*height);
+			 }
+			
 		 });
 		 
 		 $("#w_type").change(function(){
@@ -1576,6 +1759,7 @@ $(document).ready(function(){
 		<input type="text" id="r_addr1" class="limit" maxlength="35" name="r_addr1"  placeholder=" " required/>
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Receiver Address 1</span>
 		</label>
+		<small id="r_addr11"></small>
        </div> 
        
 
@@ -1584,6 +1768,7 @@ $(document).ready(function(){
 		<input type="text" id="r_addr2" class="limit" maxlength="35" name="r_addr2"  placeholder=" "  />
 		<span>Receiver Address 2</span>
 		</label>
+		<small id="r_addr22"></small>
         </div> 
        
          <div class="form-group"> 
@@ -1591,6 +1776,7 @@ $(document).ready(function(){
 		<input type="text" id="r_addr3" class="limit" maxlength="35" name="r_addr3"  placeholder=" " />
 		<span>Receiver Address 3</span>
 		</label>
+		<small id="r_addr33"></small>
         </div> 
         
          <div class="form-group"> 
@@ -1598,6 +1784,7 @@ $(document).ready(function(){
 		<input type="text" id="r_addr4" class="limit" maxlength="35" name="r_addr4"  placeholder=" " />
 		<span>Receiver Address 4</span>
 		</label>
+		<small id="r_addr44"></small>
         </div> 
         
       
@@ -1796,7 +1983,8 @@ $(document).ready(function(){
      </label>
 	 </div> 
 	 
-	 <div class="form-group"> 
+	 <div class="form-row align-items-center form-group"> 
+	 <div class="col-10">
 	  <label class="pure-material-textfield-outlined">
 	 <select class="custom-select custom-select-md"  name="receiving_type" id="rcvr_type" required >
 	 <option  selected> ---Select Receive type --</option>
@@ -1817,7 +2005,8 @@ $(document).ready(function(){
 	 </select>
 	 <span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Receiving type</span>
      </label>
-	 </div> 
+	 </div> &nbsp;<span class="d-none" id="discount"><b>5%</b></span>
+	 </div>
 	 
 	 <div class="form-group"> 
         <label class="pure-material-textfield-outlined">
@@ -1857,9 +2046,10 @@ $(document).ready(function(){
         
         <div class="form-group"> 
         <label class="pure-material-textfield-outlined">
-		<input type="file"  name="file_path"  placeholder=" " />
+		<input type="file"  name="file_path" id="file"  placeholder=" " />
 		<span>Picture Attachment</span>
 		</label>
+		<small id="file_error"></small>
         </div> 
         
   </div>
@@ -1872,33 +2062,62 @@ $(document).ready(function(){
 <div class="row">
 <div class="col-12 col-lg-12">
 <div class="card">
-<div class="m" style="margin:10px;">
+<div class="card-body">
 
 <h4>Size and Weight Information</h4><br>
 	
 	<div class="row">
 	<div class="col-12 col-lg-6">
+	<div class="form-row align-items-center">
+    <div class="col-auto">
+      <label for="length">Length</label>
+      <input type="text" class="form-control mb-2" onkeypress="javascript:return noLetter(event)" id="length" placeholder="Length" size="4">
+    </div>
+	&times;
+    
+<div class="col-auto">
+      <label for="width">Width</label>
+      <input type="text" class="form-control mb-2" onkeypress="javascript:return noLetter(event)" id="width" placeholder="Width" size="4">
+    </div>
+   &times;
 	
-	<div class="form-group"> 
+	<div class="col-auto">
+      <label for="height">Height</label>
+      <input type="text" class="form-control mb-2" onkeypress="javascript:return noLetter(event)" id="height" placeholder="Height" size="4">
+    </div>
+   &equals;
+	<div class="col-auto">
+      <label for="Size">Size</label>
+     <input type="text" class="form-control mb-2" onkeypress="javascript:return noLetter(event)" name="size"  onkeypress="javascript:return noLetter(event)" placeholder="Size" id="size" size="4"readonly required/>
+    </div>
+    <span><b>sqin</b></span>
+    
+	<!-- <div class="col-auto">
         <label class="pure-material-textfield-outlined">
-		<input type="text"  name="weight" id="weight" onkeypress="javascript:return noLetter(event)" placeholder=" " required/>
-		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Weight</span>
-		</label>
-        </div> 
-        
-	</div>
-	<div class="col-12 col-lg-6">
-	
-	<div class="form-group"> 
-        <label class="pure-material-textfield-outlined">
-		<input type="text"  name="size"  onkeypress="javascript:return noLetter(event)" placeholder=" " id="size" required/>
+		<input type="text"  name="size"  onkeypress="javascript:return noLetter(event)" placeholder=" " id="size"required/>
+		
 		<span><i style="color:red; margin-top:1px; font-size:20px;">*</i>Size</span>
 		</label>
-        </div> 
+         </div> -->
+     
+    </div>
+       
+	</div>
+	<div class="col-12 col-lg-6">
+	<div class="form-row align-items-center">
+	<div class="col-auto">
+      <label  for="Weight">Weight</label>
+   <input type="text" class="form-control mb-2" name="weight" id="weight" onkeypress="javascript:return noLetter(event)" placeholder="Weight" size="50" required/>
+    </div>
+      <span><b><%=uom%></b></span> 
+        
         
 	</div>
 	</div>
-   
+	</div>
+	<br>
+	<div class="row"><div class="col-lg-12 col-sm-12 text-center"><button type="button" class="btn btn-primary btn-sm" id="calculate">Calculate Pricing</button></div></div>
+
    </div></div><br><br>
 </div>
 </div>
@@ -1977,27 +2196,36 @@ function isLetter(evt) {
 }  
 
 function isNumber(evt) {
-    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-    if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
-        return false;
-
-    return true;
+	 var ew = event.which;
+     
+     if(48 <= ew && ew <= 57)
+         return true;
+    
+     
+     return false;
 }  
 
 function noLetter(evt) {
-    var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-
-    	if( 65 > iKeyCode || 90 < iKeyCode ){
-    		if( 97 > iKeyCode || 122 < iKeyCode){ 
-    			return true;
-    			}
-    		return false;
-    	}
-    	
-
-    return false;
+	 var ew = event.which;
+     
+     if(48 <= ew && ew <= 57)
+         return true;
+    
+     
+     return false;
 }  
-
+$('#file').change(function() {
+	var file=$('#file').val();
+	var arr=file.split(".");
+	if(arr[1]=="png" || arr[1]=="jpeg" || arr[1]=="jpg" || arr[1]=="gif"){
+		 $('#file_error').text("");
+	}
+	else{
+		$('#file').val("");
+		 $('#file_error').text("*Only accept (.png,.gif,.jpg,.jpeg).");
+			$('#file_error').css("color", "red");
+	}
+})
 $('#planneddate').change(function() {
 	var check=$('#planneddate').val();
 	if(check!=null){

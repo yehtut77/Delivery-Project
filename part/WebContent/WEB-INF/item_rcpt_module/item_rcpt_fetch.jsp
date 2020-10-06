@@ -15,16 +15,24 @@ String ldtString = FOMATTER.format(localDateTime);
 String ldtString1 = FOMATTER1.format(localDateTime);
 String[] arr=ldtString1.split("/");
 String type=request.getParameter("type");
+String id=request.getParameter("id");
 PreparedStatement pre=null;
 if(type.equalsIgnoreCase("fetch")){
 	String ccode=request.getParameter("ccode");
 	String user=request.getParameter("user");
 	String trsf_num=request.getParameter("trsf_num");
-	pre=conn.prepareStatement("Select reason,trsf_agent_code,trsf_staff_code,stat from trsf_hdr where trsf_num=? AND company_code=?");
+	pre=conn.prepareStatement("Select reason,staff_code,agent_code,stat,createdby from trsf_hdr where trsf_num=? AND company_code=?");
 	pre.setString(1, trsf_num);
 	pre.setString(2, ccode);
 	ResultSet rs=pre.executeQuery();
 	String plus="";
+	System.out.println(id);
+	pre=conn.prepareStatement("Update agent_inbox set read_unread=?  where idagent_inbox_id=?");                            
+  	pre.setString(1,"r");
+  	pre.setString(2, id); 
+  	pre.execute();
+	
+	
 	if(rs.next()){
 		String reason=rs.getString("reason");
 		pre=conn.prepareStatement("Select reason_description from reason where reason_code=?");
@@ -33,7 +41,7 @@ if(type.equalsIgnoreCase("fetch")){
 		if(r_reason.next()){
 			reason=r_reason.getString("reason_description");
 		}
-		plus=reason+"$"+rs.getString("trsf_agent_code")+"$"+rs.getString("trsf_staff_code")+"$"+rs.getString("stat")+"#";
+		plus=reason+"$"+rs.getString("agent_code")+"$"+rs.getString("staff_code")+"-"+rs.getString("createdby")+"$"+rs.getString("stat")+"#";
 	}
 	pre=conn.prepareStatement("Select tracking_num,trsf_seq from trsf_item where trsf_num=? AND company_code=?");
 	pre.setString(1, trsf_num);
@@ -42,6 +50,9 @@ if(type.equalsIgnoreCase("fetch")){
 	while(r.next()){
 		plus+="<tr><td>"+r.getString("trsf_seq")+"</td><td class='tracking_num'>"+r.getString("tracking_num")+"<i aria-hidden='true'></i></td></tr>";
 	}
+	
+	
+	
 	pre.close();
 	rs.close();
 	r.close();
@@ -61,14 +72,14 @@ else if(type.equalsIgnoreCase("save")){
 	String staff_phone=null;
 	if(trsf_num!=null){
 		pre=conn.prepareStatement("Update trsf_hdr set stat=?,updatedby=?,modifydate=? where company_code=? AND trsf_num=?");
-		pre.setString(1, "I");
+		pre.setString(1, "W");
 		pre.setString(2, user);
 		pre.setString(3, ldtString);
 		pre.setString(4, ccode);
 		pre.setString(5, trsf_num);
 		pre.execute();
 		pre=conn.prepareStatement("Update trsf_item set stat=?,updatedby=?,modifydate=? where company_code=? AND trsf_num=?");
-		pre.setString(1, "I");
+		pre.setString(1, "W");
 		pre.setString(2, user);
 		pre.setString(3, ldtString);
 		pre.setString(4, ccode);
@@ -102,7 +113,7 @@ else if(type.equalsIgnoreCase("save")){
 			pre.setString(4, user);
 			pre.setString(5, staff_phone);
 			pre.setString(6, tracking_num[i]);
-			pre.setString(7, "I");
+			pre.setString(7, "W");
 			pre.setString(8, Integer.toString(total));
 			pre.setString(9, user);
 			pre.setString(10, ldtString);
@@ -112,7 +123,7 @@ else if(type.equalsIgnoreCase("save")){
 		
 			
 			pre=conn.prepareStatement("Update registration set stat=?,updateby=?,modifydate=? where company_code=? AND track_num=?");
-			pre.setString(1, "I");
+			pre.setString(1, "W");
 			pre.setString(2, user);
 			pre.setString(3, ldtString);
 			pre.setString(4,ccode);
